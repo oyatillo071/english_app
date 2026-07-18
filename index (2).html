@@ -1,0 +1,797 @@
+<!doctype html>
+<html lang="uz">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>English for Beginners - Test</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="data.js"></script>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap");
+      body {
+        font-family: "Plus Jakarta Sans", sans-serif;
+        background: linear-gradient(135deg, #eef2ff 0%, #f8fafc 60%);
+      }
+      .option-card:active { transform: scale(0.98); }
+      .glass-panel {
+        background: rgba(255, 255, 255, 0.85);
+        border: 1px solid rgba(226, 232, 240, 0.8);
+      }
+      .flip-card { perspective: 1000px; cursor: pointer; }
+      .flip-inner { transition: transform 0.5s; transform-style: preserve-3d; }
+      .flip-card.flipped .flip-inner { transform: rotateY(180deg); }
+      .flip-front, .flip-back {
+        backface-visibility: hidden;
+        position: absolute; inset: 0;
+        display: flex; align-items: center; justify-content: center;
+        text-align: center; padding: 0.75rem;
+      }
+      .flip-back { transform: rotateY(180deg); }
+      .home-card:hover { transform: translateY(-4px); }
+    </style>
+  </head>
+  <body class="min-h-screen flex items-center justify-center p-4">
+    <div
+      id="app"
+      class="max-w-3xl w-full glass-panel rounded-3xl shadow-2xl overflow-hidden min-h-[600px] flex flex-col"
+    >
+      <!-- ============ BOSH SAHIFA ============ -->
+      <div id="home-screen" class="p-8 flex flex-col justify-center flex-grow">
+        <div class="text-center mb-10">
+          <h1 class="text-3xl font-extrabold text-slate-800 mb-2">
+            🇬🇧 English for Beginners
+          </h1>
+          <p class="text-slate-500">
+            Ingliz tilini noldan o'rganish uchun test, grammatika va lug'at bo'limi
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 gap-4">
+          <button
+            onclick="showTopicsScreen()"
+            class="home-card transition-all p-6 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-2xl text-left flex justify-between items-center shadow-lg shadow-purple-200"
+          >
+            <div>
+              <h3 class="font-extrabold text-lg">📝 Test topshirish</h3>
+              <p class="text-sm text-white/80 mt-1">Grammatika bo'yicha savollarga javob bering</p>
+            </div>
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+          </button>
+
+          <button
+            onclick="showGrammarScreen()"
+            class="home-card transition-all p-6 bg-white border-2 border-slate-200 rounded-2xl text-left flex justify-between items-center hover:border-blue-400 hover:bg-blue-50"
+          >
+            <div>
+              <h3 class="font-extrabold text-lg text-slate-800">📚 Grammatika</h3>
+              <p class="text-sm text-slate-500 mt-1">To be'dan boshlab, tushuntirish va misollar bilan</p>
+            </div>
+            <svg class="w-6 h-6 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+          </button>
+
+          <button
+            onclick="showVocabScreen()"
+            class="home-card transition-all p-6 bg-white border-2 border-slate-200 rounded-2xl text-left flex justify-between items-center hover:border-blue-400 hover:bg-blue-50"
+          >
+            <div>
+              <h3 class="font-extrabold text-lg text-slate-800">🗂️ Lug'at</h3>
+              <p class="text-sm text-slate-500 mt-1">Kartochkalar orqali so'zlarni yodlang</p>
+            </div>
+            <svg class="w-6 h-6 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- ============ TEST MAVZULARI ============ -->
+      <div id="topics-screen" class="hidden p-8 relative py-24 flex-col flex-grow overflow-y-auto">
+        <button onclick="showHome()" class="mb-6 text-slate-500 font-semibold flex items-center hover:text-blue-600 transition-colors">
+          <svg class="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+          Bosh sahifa
+        </button>
+        <div class="text-center mb-8">
+          <h1 class="text-2xl font-extrabold text-slate-800 mb-2">Test mavzulari</h1>
+          <p class="text-slate-500">Bilimingizni sinash uchun quyidagi bo'limlardan birini tanlang</p>
+        </div>
+
+        <div id="topics-list" class="grid grid-cols-1 gap-4"></div>
+
+        <div class="mt-6 pt-6 fixed bottom-0 left-0 right-0 max-w-3xl mx-auto bg-blue-50 border-t border-slate-200">
+          <button
+            onclick="startMixedTest()"
+            class="w-full bg-gradient-to-r from-purple-600 to-blue-600 text-white px-6 py-4 rounded-2xl font-bold hover:from-purple-700 hover:to-blue-700 shadow-lg shadow-purple-200 transition-all text-lg"
+          >
+            🎯 IMTIHON REJIM (Jami 40ta savol)
+          </button>
+          <p class="text-center text-sm text-slate-500 mt-3">Barcha mavzulardan random savollar</p>
+        </div>
+      </div>
+
+      <!-- ============ QUIZ SAHIFASI ============ -->
+      <div id="quiz-screen" class="hidden flex-col h-full">
+        <div class="h-2 bg-slate-100">
+          <div id="progress-bar" class="h-full w-0 bg-blue-600 transition-all duration-500"></div>
+        </div>
+
+        <div class="px-8 pt-4 pb-2">
+          <div class="flex gap-1 flex-wrap" id="progress-dots"></div>
+        </div>
+
+        <div class="p-8 flex-grow overflow-y-auto">
+          <div class="flex justify-between items-center mb-8">
+            <button onclick="showTopicsScreen()" class="text-slate-500 font-semibold flex items-center hover:text-blue-600 transition-colors">
+              <svg class="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+              Mavzular
+            </button>
+            <span id="counter" class="bg-blue-100 text-blue-700 px-4 py-1 rounded-full text-xs font-bold uppercase tracking-wider"></span>
+          </div>
+
+          <div id="question-area">
+            <h2 id="question-text" class="text-xl text-slate-800 font-bold mb-10 leading-snug"></h2>
+            <div id="options-container" class="grid grid-cols-1 gap-3"></div>
+
+            <div class="mt-6 pt-6 border-t border-slate-200">
+              <button
+                onclick="nextUnansweredQuestion()"
+                class="w-full bg-slate-200 text-slate-700 px-6 py-3 rounded-xl font-semibold hover:bg-slate-300 transition-all flex items-center justify-center gap-2"
+              >
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5l7 7-7 7M5 5l7 7-7 7"></path></svg>
+                Keyingi javobsiz savol (Space)
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============ NATIJA SAHIFASI ============ -->
+      <div id="result-screen" class="hidden p-8 flex-col items-center justify-start overflow-y-auto">
+        <div id="result-status-icon" class="mb-6 p-4 rounded-full"></div>
+        <h2 class="text-3xl font-bold text-slate-800 mb-2">Test Yakunlandi</h2>
+        <p id="final-score-text" class="text-lg text-slate-600 mb-8"></p>
+
+        <div id="mistakes-container" class="w-full mb-8"></div>
+
+        <div class="flex flex-col sm:flex-row gap-4 w-full justify-center">
+          <button onclick="restartTopic()" class="bg-blue-600 text-white px-10 py-3 rounded-xl font-bold hover:bg-blue-700 shadow-lg shadow-blue-200 transition-all">
+            Qayta urinish
+          </button>
+          <button onclick="showTopicsScreen()" class="bg-slate-200 text-slate-700 px-10 py-3 rounded-xl font-bold hover:bg-slate-300 transition-all">
+            Boshqa mavzu
+          </button>
+        </div>
+      </div>
+
+      <!-- ============ GRAMMATIKA SAHIFASI ============ -->
+      <div id="grammar-screen" class="hidden p-8 flex-col flex-grow overflow-y-auto">
+        <button onclick="grammarBack()" id="grammar-back-btn" class="mb-6 text-slate-500 font-semibold flex items-center hover:text-blue-600 transition-colors">
+          <svg class="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+          <span id="grammar-back-label">Bosh sahifa</span>
+        </button>
+
+        <div id="grammar-list-view">
+          <div class="text-center mb-8">
+            <h1 class="text-2xl font-extrabold text-slate-800 mb-2">📚 Grammatika</h1>
+            <p class="text-slate-500">Mavzuni tanlang va noldan tushunib boring</p>
+          </div>
+          <div id="grammar-topics-list" class="grid grid-cols-1 gap-3"></div>
+        </div>
+
+        <div id="grammar-detail-view" class="hidden">
+          <h2 id="grammar-detail-title" class="text-2xl font-extrabold text-slate-800 mb-6"></h2>
+          <div id="grammar-detail-content" class="text-slate-700 leading-relaxed"></div>
+        </div>
+      </div>
+
+      <!-- ============ LUG'AT SAHIFASI ============ -->
+      <div id="vocab-screen" class="hidden p-8 flex-col flex-grow overflow-y-auto">
+        <button onclick="vocabBack()" id="vocab-back-btn" class="mb-6 text-slate-500 font-semibold flex items-center hover:text-blue-600 transition-colors">
+          <svg class="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+          <span id="vocab-back-label">Bosh sahifa</span>
+        </button>
+
+        <div id="vocab-list-view">
+          <div class="text-center mb-8">
+            <h1 class="text-2xl font-extrabold text-slate-800 mb-2">🗂️ Lug'at</h1>
+            <p class="text-slate-500">Kategoriyani tanlang va kartochkani bosib tarjimasini ko'ring</p>
+          </div>
+          <div id="vocab-categories-list" class="grid grid-cols-2 gap-3"></div>
+        </div>
+
+        <div id="vocab-detail-view" class="hidden">
+          <h2 id="vocab-detail-title" class="text-2xl font-extrabold text-slate-800 mb-2"></h2>
+          <p class="text-sm text-slate-500 mb-6">Kartochkani bosing — tarjimasi chiqadi</p>
+          <div id="vocab-cards-grid" class="grid grid-cols-2 sm:grid-cols-3 gap-3"></div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // ===================== YORDAMCHI FUNKSIYALAR =====================
+      function randomizeQuestions(questions) {
+        return questions.map((q) => {
+          const correctText = q.options[q.correct];
+          const shuffled = [...q.options].sort(() => Math.random() - 0.5);
+          const newCorrectIndex = shuffled.indexOf(correctText);
+          return { ...q, options: shuffled, correct: newCorrectIndex };
+        });
+      }
+
+      function shuffleArray(array) {
+        const arr = [...array];
+        for (let i = arr.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+        return arr;
+      }
+
+      let currentTopicKey = "";
+      let currentIdx = 0;
+      let score = 0;
+      let currentQuestions = [];
+      let isMixedTest = false;
+      let mistakesList = [];
+      let selectedTopic = null;
+      let selectedOption = -1;
+      let questionStatuses = [];
+      let answerHistory = [];
+
+      const homeScreen = document.getElementById("home-screen");
+      const topicsScreen = document.getElementById("topics-screen");
+      const quizScreen = document.getElementById("quiz-screen");
+      const resultScreen = document.getElementById("result-screen");
+      const grammarScreen = document.getElementById("grammar-screen");
+      const vocabScreen = document.getElementById("vocab-screen");
+
+      const topicsList = document.getElementById("topics-list");
+      const questionText = document.getElementById("question-text");
+      const optionsContainer = document.getElementById("options-container");
+      const counter = document.getElementById("counter");
+      const progressBar = document.getElementById("progress-bar");
+      const finalScoreText = document.getElementById("final-score-text");
+      const statusIcon = document.getElementById("result-status-icon");
+      const mistakesContainer = document.getElementById("mistakes-container");
+      const progressDots = document.getElementById("progress-dots");
+
+      function hideAllScreens() {
+        [homeScreen, topicsScreen, quizScreen, resultScreen, grammarScreen, vocabScreen].forEach((s) => {
+          s.classList.add("hidden");
+          s.classList.remove("flex");
+        });
+        document.removeEventListener("keydown", handleMenuNavigation);
+        document.removeEventListener("keydown", handleQuizNavigation);
+      }
+
+      // ===================== BOSH SAHIFA =====================
+      function showHome() {
+        hideAllScreens();
+        homeScreen.classList.remove("hidden");
+        homeScreen.classList.add("flex");
+      }
+
+      // ===================== TEST MAVZULARI =====================
+      function showTopicsScreen() {
+        hideAllScreens();
+        topicsScreen.classList.remove("hidden");
+        topicsScreen.classList.add("flex");
+        initMenu();
+      }
+
+      function initMenu() {
+        selectedTopic = null;
+        topicsList.innerHTML = "";
+        Object.keys(quizDatabase).forEach((key, index) => {
+          const topic = quizDatabase[key];
+          const btn = document.createElement("button");
+          btn.className =
+            "p-5 bg-white border-2 border-slate-200 rounded-2xl text-left hover:border-blue-400 hover:bg-blue-50 transition-all flex justify-between items-center group focus:border-blue-600 focus:ring-2 focus:ring-blue-300";
+          btn.innerHTML = `
+                    <div class="pr-4">
+                        <h3 class="font-bold text-slate-800 group-hover:text-blue-700">${topic.title}</h3>
+                        <p class="text-sm text-slate-400">${topic.questions.length} ta savol</p>
+                    </div>
+                    <div class="bg-slate-100 p-2 rounded-lg group-hover:bg-blue-100 transition-colors">
+                        <svg class="w-5 h-5 text-slate-400 group-hover:text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                    </div>
+                `;
+          btn.onclick = () => startQuiz(key);
+          btn.setAttribute("data-topic-index", index);
+          topicsList.appendChild(btn);
+        });
+        document.addEventListener("keydown", handleMenuNavigation);
+      }
+
+      function handleMenuNavigation(e) {
+        if (!topicsScreen.classList.contains("hidden")) {
+          const buttons = topicsList.querySelectorAll("button");
+          let currentIndex = selectedTopic !== null ? selectedTopic : -1;
+
+          if (e.key === "ArrowDown" || e.key === "ArrowRight") {
+            e.preventDefault();
+            currentIndex = (currentIndex + 1) % buttons.length;
+            selectedTopic = currentIndex;
+            buttons[currentIndex].focus();
+            buttons[currentIndex].classList.add("ring-2", "ring-blue-400");
+          } else if (e.key === "ArrowUp" || e.key === "ArrowLeft") {
+            e.preventDefault();
+            currentIndex = (currentIndex - 1 + buttons.length) % buttons.length;
+            selectedTopic = currentIndex;
+            buttons[currentIndex].focus();
+            buttons[currentIndex].classList.add("ring-2", "ring-blue-400");
+          } else if (e.key === "Enter" && currentIndex !== -1) {
+            e.preventDefault();
+            buttons[currentIndex].click();
+          } else if (e.key === "Escape") {
+            e.preventDefault();
+            showHome();
+          }
+        }
+      }
+
+      // ===================== QUIZNI BOSHLASH =====================
+      function startQuiz(key) {
+        isMixedTest = false;
+        currentTopicKey = key;
+        currentIdx = 0;
+        score = 0;
+        mistakesList = [];
+        questionStatuses = [];
+        answerHistory = [];
+        currentQuestions = shuffleArray(randomizeQuestions(quizDatabase[currentTopicKey].questions));
+        answerHistory = new Array(currentQuestions.length).fill(null);
+        initProgressDots();
+        hideAllScreens();
+        quizScreen.classList.remove("hidden");
+        quizScreen.classList.add("flex");
+        loadQuestion();
+      }
+
+      function startMixedTest() {
+        isMixedTest = true;
+        currentTopicKey = "mixedTest";
+        currentIdx = 0;
+        score = 0;
+        mistakesList = [];
+        questionStatuses = [];
+        answerHistory = [];
+
+        const allQuestions = [];
+        const topicKeys = Object.keys(quizDatabase);
+
+        topicKeys.forEach((key) => {
+          const questions = quizDatabase[key].questions;
+          const selected = getRandomQuestions(questions, 3);
+          allQuestions.push(...selected);
+        });
+
+        while (allQuestions.length < 40) {
+          const randomKey = topicKeys[Math.floor(Math.random() * topicKeys.length)];
+          const questions = quizDatabase[randomKey].questions;
+          const selected = getRandomQuestions(questions, 1);
+          allQuestions.push(...selected);
+        }
+
+        currentQuestions = shuffleArray(randomizeQuestions(allQuestions.slice(0, 40)));
+        answerHistory = new Array(currentQuestions.length).fill(null);
+
+        initProgressDots();
+        hideAllScreens();
+        quizScreen.classList.remove("hidden");
+        quizScreen.classList.add("flex");
+        loadQuestion();
+      }
+
+      function initProgressDots() {
+        progressDots.innerHTML = "";
+        for (let i = 0; i < currentQuestions.length; i++) {
+          const dot = document.createElement("div");
+          dot.className = "w-4 h-4 rounded-full bg-slate-300 transition-all cursor-pointer hover:scale-125";
+          dot.setAttribute("data-question", i);
+          dot.onclick = () => goToQuestion(i);
+          progressDots.appendChild(dot);
+        }
+        questionStatuses = new Array(currentQuestions.length).fill("pending");
+        updateProgressDots();
+      }
+
+      function updateProgressDots() {
+        const dots = progressDots.querySelectorAll("div");
+        dots.forEach((dot, i) => {
+          dot.classList.remove("bg-slate-300", "bg-green-500", "bg-red-500", "ring-2", "ring-blue-400");
+          if (i === currentIdx) {
+            dot.classList.add("ring-2", "ring-blue-400", "bg-blue-500");
+          } else if (questionStatuses[i] === "correct") {
+            dot.classList.add("bg-green-500");
+          } else if (questionStatuses[i] === "wrong") {
+            dot.classList.add("bg-red-500");
+          } else {
+            dot.classList.add("bg-slate-300");
+          }
+        });
+      }
+
+      function goToQuestion(idx) {
+        currentIdx = idx;
+        selectedOption = -1;
+        loadQuestion();
+        updateProgressDots();
+      }
+
+      function nextUnansweredQuestion() {
+        const nextIdx = questionStatuses.findIndex((s) => s === "pending");
+        if (nextIdx !== -1) {
+          goToQuestion(nextIdx);
+        } else {
+          finishQuiz();
+        }
+      }
+
+      function loadQuestion() {
+        selectedOption = -1;
+        const qData = currentQuestions[currentIdx];
+
+        progressBar.style.width = `${(currentIdx / currentQuestions.length) * 100}%`;
+        counter.innerText = `${currentIdx + 1} / ${currentQuestions.length}`;
+        questionText.innerText = qData.q.replace(/\[.*?\]/g, "");
+
+        optionsContainer.innerHTML = "";
+        qData.options.forEach((opt, i) => {
+          const btn = document.createElement("button");
+          const isAnswered = answerHistory[currentIdx] !== null;
+          const isSelected = answerHistory[currentIdx] === i;
+
+          let btnClass =
+            "option-card p-4 rounded-xl border-2 text-left flex items-start transition-all bg-white shadow-sm focus:ring-2 focus:ring-blue-400";
+
+          if (isAnswered) {
+            const correct = currentQuestions[currentIdx].correct;
+            if (i === correct) {
+              btnClass += " border-green-500 bg-green-50";
+            } else if (isSelected) {
+              btnClass += " border-red-400 bg-red-50";
+            } else {
+              btnClass += " border-slate-100 opacity-50 cursor-not-allowed";
+            }
+          } else {
+            btnClass += " border-slate-100 hover:border-blue-200 cursor-pointer";
+          }
+
+          btn.className = btnClass;
+          btn.innerHTML = `
+                    <span class="w-7 h-7 rounded-lg text-slate-500 flex items-center justify-center text-xs font-bold mr-4 mt-0.5 shrink-0 transition-colors ${isAnswered && (i === currentQuestions[currentIdx].correct ? "bg-green-500 text-white" : isSelected ? "bg-red-500 text-white" : "bg-slate-100")}">${String.fromCharCode(65 + i)}</span>
+                    <span class="text-slate-700 font-medium leading-relaxed">${opt}</span>
+                `;
+
+          if (!isAnswered) {
+            btn.onclick = () => handleAnswer(i, btn);
+          }
+
+          btn.setAttribute("data-index", i);
+          optionsContainer.appendChild(btn);
+        });
+
+        updateProgressDots();
+        document.addEventListener("keydown", handleQuizNavigation);
+      }
+
+      function handleQuizNavigation(e) {
+        const isAnswered = answerHistory[currentIdx] !== null;
+        const buttons = optionsContainer.querySelectorAll(".option-card");
+        const totalOptions = buttons.length;
+
+        if (e.key === "ArrowUp") {
+          e.preventDefault();
+          if (!isAnswered) {
+            selectedOption = (selectedOption - 1 + totalOptions) % totalOptions;
+            updateOptionHighlight(buttons);
+          }
+          return;
+        } else if (e.key === "ArrowDown") {
+          e.preventDefault();
+          if (!isAnswered) {
+            selectedOption = (selectedOption + 1) % totalOptions;
+            updateOptionHighlight(buttons);
+          }
+          return;
+        }
+
+        if (e.key === "ArrowLeft") {
+          e.preventDefault();
+          let prevIdx = currentIdx - 1;
+          while (prevIdx >= 0 && questionStatuses[prevIdx] !== "pending") prevIdx--;
+          if (prevIdx >= 0) goToQuestion(prevIdx);
+          return;
+        }
+
+        if (e.key === "ArrowRight") {
+          e.preventDefault();
+          let nextIdx = currentIdx + 1;
+          while (nextIdx < questionStatuses.length && questionStatuses[nextIdx] !== "pending") nextIdx++;
+          if (nextIdx < questionStatuses.length) goToQuestion(nextIdx);
+          return;
+        }
+
+        if (e.code === "Space") {
+          e.preventDefault();
+          nextUnansweredQuestion();
+          return;
+        }
+
+        if (!isAnswered) {
+          const key = parseInt(e.key);
+          if (key >= 1 && key <= 4 && key <= totalOptions) {
+            selectedOption = key - 1;
+            updateOptionHighlight(buttons);
+            return;
+          }
+        }
+
+        if (e.key === "Enter" && selectedOption !== -1 && !isAnswered) {
+          e.preventDefault();
+          buttons[selectedOption].click();
+          return;
+        }
+
+        if (e.key === "Escape") {
+          e.preventDefault();
+          showTopicsScreen();
+          return;
+        }
+      }
+
+      function updateOptionHighlight(buttons) {
+        buttons.forEach((btn) => btn.classList.remove("ring-2", "ring-blue-400", "border-blue-400"));
+        if (selectedOption >= 0 && selectedOption < buttons.length) {
+          buttons[selectedOption].classList.add("ring-2", "ring-blue-400", "border-blue-400");
+          buttons[selectedOption].scrollIntoView({ behavior: "smooth", block: "nearest" });
+        }
+      }
+
+      function handleAnswer(i) {
+        if (answerHistory[currentIdx] !== null) return;
+
+        answerHistory[currentIdx] = i;
+        const correct = currentQuestions[currentIdx].correct;
+        const isCorrect = i === correct;
+
+        if (isCorrect) {
+          score++;
+          questionStatuses[currentIdx] = "correct";
+        } else {
+          questionStatuses[currentIdx] = "wrong";
+          mistakesList.push({
+            questionNumber: currentIdx + 1,
+            question: currentQuestions[currentIdx].q.replace(/\[.*?\]/g, ""),
+            userAnswer: currentQuestions[currentIdx].options[i],
+            correctAnswer: currentQuestions[currentIdx].options[correct],
+          });
+        }
+
+        loadQuestion();
+        updateProgressDots();
+
+        const delayTime = isCorrect ? 1500 : 3000;
+        setTimeout(() => {
+          let nextIdx = currentIdx + 1;
+          while (nextIdx < questionStatuses.length && questionStatuses[nextIdx] !== "pending") nextIdx++;
+
+          if (nextIdx < questionStatuses.length) {
+            goToQuestion(nextIdx);
+          } else {
+            const unansweredCount = questionStatuses.filter((s) => s === "pending").length;
+            if (unansweredCount === 0) {
+              finishQuiz();
+            } else {
+              const firstUnanswered = questionStatuses.findIndex((s) => s === "pending");
+              if (firstUnanswered !== -1) goToQuestion(firstUnanswered);
+            }
+          }
+        }, delayTime);
+      }
+
+      function finishQuiz() {
+        progressBar.style.width = "100%";
+        hideAllScreens();
+        resultScreen.classList.remove("hidden");
+        resultScreen.classList.add("flex");
+
+        const total = currentQuestions.length;
+        const percent = Math.round((score / total) * 100);
+
+        if (percent >= 80) {
+          statusIcon.className = "mb-6 p-4 rounded-full bg-green-100 text-green-600";
+          statusIcon.innerHTML = `<svg class="w-16 h-16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>`;
+        } else if (percent >= 50) {
+          statusIcon.className = "mb-6 p-4 rounded-full bg-blue-100 text-blue-600";
+          statusIcon.innerHTML = `<svg class="w-16 h-16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>`;
+        } else {
+          statusIcon.className = "mb-6 p-4 rounded-full bg-red-100 text-red-600";
+          statusIcon.innerHTML = `<svg class="w-16 h-16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>`;
+        }
+
+        finalScoreText.innerHTML = `Siz jami <b>${total}</b> ta savoldan <b>${score}</b> tasini to'g'ri topdingiz.<br><span class="text-2xl font-extrabold mt-2 block ${percent >= 60 ? "text-green-600" : "text-red-600"}">Natija: ${percent}%</span>`;
+
+        displayMistakes();
+      }
+
+      function displayMistakes() {
+        mistakesContainer.innerHTML = "";
+
+        if (mistakesList.length === 0) {
+          mistakesContainer.innerHTML = "<p class=\"text-green-600 font-bold text-center\">🎉 Barcha savollarni to'g'ri topdingiz!</p>";
+          return;
+        }
+
+        const title = document.createElement("h3");
+        title.className = "text-xl font-bold text-red-600 mb-4 text-center w-full";
+        title.innerText = `❌ Xato qilgan savollar (${mistakesList.length})`;
+        mistakesContainer.appendChild(title);
+
+        mistakesList.forEach((mistake) => {
+          const card = document.createElement("div");
+          card.className = "mb-4 p-4 bg-red-50 border-l-4 border-red-500 rounded-lg w-full";
+          card.innerHTML = `
+                    <div class="mb-2">
+                        <span class="bg-red-500 text-white px-3 py-1 rounded text-sm font-bold">${mistake.questionNumber}-savol</span>
+                    </div>
+                    <p class="text-slate-800 font-semibold mb-3">${mistake.question}</p>
+                    <div class="space-y-2">
+                        <div class="p-2 bg-red-100 border border-red-300 rounded">
+                            <span class="text-red-700 text-sm font-bold">❌ Sizning javob:</span>
+                            <p class="text-red-700">${mistake.userAnswer}</p>
+                        </div>
+                        <div class="p-2 bg-green-100 border border-green-300 rounded">
+                            <span class="text-green-700 text-sm font-bold">✅ To'g'ri javob:</span>
+                            <p class="text-green-700">${mistake.correctAnswer}</p>
+                        </div>
+                    </div>
+                `;
+          mistakesContainer.appendChild(card);
+        });
+      }
+
+      function getRandomQuestions(questions, count) {
+        const shuffled = shuffleArray(questions);
+        return shuffled.slice(0, count);
+      }
+
+      function restartTopic() {
+        if (isMixedTest) {
+          startMixedTest();
+        } else {
+          startQuiz(currentTopicKey);
+        }
+      }
+
+      // ===================== GRAMMATIKA BO'LIMI =====================
+      let grammarInDetail = false;
+
+      function showGrammarScreen() {
+        hideAllScreens();
+        grammarScreen.classList.remove("hidden");
+        grammarScreen.classList.add("flex");
+        grammarInDetail = false;
+        renderGrammarList();
+        showGrammarListView();
+      }
+
+      function renderGrammarList() {
+        const container = document.getElementById("grammar-topics-list");
+        container.innerHTML = "";
+        grammarDatabase.forEach((topic) => {
+          const btn = document.createElement("button");
+          btn.className =
+            "p-4 bg-white border-2 border-slate-200 rounded-2xl text-left hover:border-blue-400 hover:bg-blue-50 transition-all flex items-center gap-4";
+          btn.innerHTML = `
+            <span class="text-2xl">${topic.icon}</span>
+            <span class="font-bold text-slate-800">${topic.title}</span>
+          `;
+          btn.onclick = () => showGrammarDetail(topic.key);
+          container.appendChild(btn);
+        });
+      }
+
+      function showGrammarListView() {
+        grammarInDetail = false;
+        document.getElementById("grammar-list-view").classList.remove("hidden");
+        document.getElementById("grammar-detail-view").classList.add("hidden");
+        document.getElementById("grammar-back-label").innerText = "Bosh sahifa";
+      }
+
+      function showGrammarDetail(key) {
+        const topic = grammarDatabase.find((t) => t.key === key);
+        if (!topic) return;
+        grammarInDetail = true;
+        document.getElementById("grammar-list-view").classList.add("hidden");
+        document.getElementById("grammar-detail-view").classList.remove("hidden");
+        document.getElementById("grammar-detail-title").innerText = `${topic.icon} ${topic.title}`;
+        document.getElementById("grammar-detail-content").innerHTML = topic.content;
+        document.getElementById("grammar-back-label").innerText = "Mavzular ro'yxati";
+        grammarScreen.scrollTop = 0;
+      }
+
+      function grammarBack() {
+        if (grammarInDetail) {
+          showGrammarListView();
+        } else {
+          showHome();
+        }
+      }
+
+      // ===================== LUG'AT BO'LIMI =====================
+      let vocabInDetail = false;
+
+      function showVocabScreen() {
+        hideAllScreens();
+        vocabScreen.classList.remove("hidden");
+        vocabScreen.classList.add("flex");
+        vocabInDetail = false;
+        renderVocabCategories();
+        showVocabListView();
+      }
+
+      function renderVocabCategories() {
+        const container = document.getElementById("vocab-categories-list");
+        container.innerHTML = "";
+        vocabDatabase.forEach((cat) => {
+          const btn = document.createElement("button");
+          btn.className =
+            "p-4 bg-white border-2 border-slate-200 rounded-2xl text-center hover:border-blue-400 hover:bg-blue-50 transition-all flex flex-col items-center gap-2";
+          btn.innerHTML = `
+            <span class="text-2xl">${cat.icon}</span>
+            <span class="font-bold text-slate-800 text-sm">${cat.title}</span>
+            <span class="text-xs text-slate-400">${cat.words.length} ta so'z</span>
+          `;
+          btn.onclick = () => showVocabDetail(cat.key);
+          container.appendChild(btn);
+        });
+      }
+
+      function showVocabListView() {
+        vocabInDetail = false;
+        document.getElementById("vocab-list-view").classList.remove("hidden");
+        document.getElementById("vocab-detail-view").classList.add("hidden");
+        document.getElementById("vocab-back-label").innerText = "Bosh sahifa";
+      }
+
+      function showVocabDetail(key) {
+        const cat = vocabDatabase.find((c) => c.key === key);
+        if (!cat) return;
+        vocabInDetail = true;
+        document.getElementById("vocab-list-view").classList.add("hidden");
+        document.getElementById("vocab-detail-view").classList.remove("hidden");
+        document.getElementById("vocab-detail-title").innerText = `${cat.icon} ${cat.title}`;
+        document.getElementById("vocab-back-label").innerText = "Kategoriyalar";
+
+        const grid = document.getElementById("vocab-cards-grid");
+        grid.innerHTML = "";
+        cat.words.forEach((word) => {
+          const card = document.createElement("div");
+          card.className = "flip-card relative h-24 rounded-xl border-2 border-slate-200 bg-white shadow-sm";
+          card.innerHTML = `
+            <div class="flip-inner relative w-full h-full">
+              <div class="flip-front">
+                <span class="font-bold text-slate-800">${word.en}</span>
+              </div>
+              <div class="flip-back bg-blue-600 rounded-xl">
+                <span class="font-bold text-white">${word.uz}</span>
+              </div>
+            </div>
+          `;
+          card.onclick = () => card.classList.toggle("flipped");
+          grid.appendChild(card);
+        });
+        vocabScreen.scrollTop = 0;
+      }
+
+      function vocabBack() {
+        if (vocabInDetail) {
+          showVocabListView();
+        } else {
+          showHome();
+        }
+      }
+
+      window.onload = showHome;
+    </script>
+  </body>
+</html>
