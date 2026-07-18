@@ -12,22 +12,62 @@
         font-family: "Plus Jakarta Sans", sans-serif;
         background: linear-gradient(135deg, #eef2ff 0%, #f8fafc 60%);
       }
-      .option-card:active { transform: scale(0.98); }
+      .option-card:active {
+        transform: scale(0.98);
+      }
       .glass-panel {
         background: rgba(255, 255, 255, 0.85);
         border: 1px solid rgba(226, 232, 240, 0.8);
       }
-      .flip-card { perspective: 1000px; cursor: pointer; }
-      .flip-inner { transition: transform 0.5s; transform-style: preserve-3d; }
-      .flip-card.flipped .flip-inner { transform: rotateY(180deg); }
-      .flip-front, .flip-back {
-        backface-visibility: hidden;
-        position: absolute; inset: 0;
-        display: flex; align-items: center; justify-content: center;
-        text-align: center; padding: 0.75rem;
+      .flip-card {
+        perspective: 1000px;
+        cursor: pointer;
       }
-      .flip-back { transform: rotateY(180deg); }
-      .home-card:hover { transform: translateY(-4px); }
+      .flip-inner {
+        transition: transform 0.5s;
+        transform-style: preserve-3d;
+      }
+      .flip-card.flipped .flip-inner {
+        transform: rotateY(180deg);
+      }
+      .flip-front,
+      .flip-back {
+        backface-visibility: hidden;
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 0.75rem;
+      }
+      .flip-back {
+        transform: rotateY(180deg);
+      }
+      .home-card:hover {
+        transform: translateY(-4px);
+      }
+      .speak-btn {
+        transition: all 0.15s;
+      }
+      .speak-btn:hover {
+        transform: scale(1.15);
+      }
+      .speak-btn:active {
+        transform: scale(0.95);
+      }
+      .speak-btn.speaking svg {
+        animation: pulse-speak 0.6s ease-in-out infinite;
+      }
+      @keyframes pulse-speak {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.4;
+        }
+      }
     </style>
   </head>
   <body class="min-h-screen flex items-center justify-center p-4">
@@ -42,7 +82,8 @@
             🇬🇧 English for Beginners
           </h1>
           <p class="text-slate-500">
-            Ingliz tilini noldan o'rganish uchun test, grammatika va lug'at bo'limi
+            Ingliz tilini noldan o'rganish uchun test, grammatika va lug'at
+            bo'limi
           </p>
         </div>
 
@@ -53,9 +94,23 @@
           >
             <div>
               <h3 class="font-extrabold text-lg">📝 Test topshirish</h3>
-              <p class="text-sm text-white/80 mt-1">Grammatika bo'yicha savollarga javob bering</p>
+              <p class="text-sm text-white/80 mt-1">
+                Grammatika bo'yicha savollarga javob bering
+              </p>
             </div>
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+            <svg
+              class="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M9 5l7 7-7 7"
+              ></path>
+            </svg>
           </button>
 
           <button
@@ -63,10 +118,26 @@
             class="home-card transition-all p-6 bg-white border-2 border-slate-200 rounded-2xl text-left flex justify-between items-center hover:border-blue-400 hover:bg-blue-50"
           >
             <div>
-              <h3 class="font-extrabold text-lg text-slate-800">📚 Grammatika</h3>
-              <p class="text-sm text-slate-500 mt-1">To be'dan boshlab, tushuntirish va misollar bilan</p>
+              <h3 class="font-extrabold text-lg text-slate-800">
+                📚 Grammatika
+              </h3>
+              <p class="text-sm text-slate-500 mt-1">
+                To be'dan boshlab, tushuntirish va misollar bilan
+              </p>
             </div>
-            <svg class="w-6 h-6 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+            <svg
+              class="w-6 h-6 text-slate-400"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M9 5l7 7-7 7"
+              ></path>
+            </svg>
           </button>
 
           <button
@@ -75,41 +146,84 @@
           >
             <div>
               <h3 class="font-extrabold text-lg text-slate-800">🗂️ Lug'at</h3>
-              <p class="text-sm text-slate-500 mt-1">Kartochkalar orqali so'zlarni yodlang</p>
+              <p class="text-sm text-slate-500 mt-1">
+                Kartochkalar orqali so'zlarni yodlang
+              </p>
             </div>
-            <svg class="w-6 h-6 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+            <svg
+              class="w-6 h-6 text-slate-400"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M9 5l7 7-7 7"
+              ></path>
+            </svg>
           </button>
         </div>
       </div>
 
       <!-- ============ TEST MAVZULARI ============ -->
-      <div id="topics-screen" class="hidden p-8 relative py-24 flex-col flex-grow overflow-y-auto">
-        <button onclick="showHome()" class="mb-6 text-slate-500 font-semibold flex items-center hover:text-blue-600 transition-colors">
-          <svg class="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+      <div
+        id="topics-screen"
+        class="hidden p-8 relative py-24 flex-col flex-grow overflow-y-auto"
+      >
+        <button
+          onclick="showHome()"
+          class="mb-6 text-slate-500 font-semibold flex items-center hover:text-blue-600 transition-colors"
+        >
+          <svg
+            class="w-5 h-5 mr-1"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M15 19l-7-7 7-7"
+            ></path>
+          </svg>
           Bosh sahifa
         </button>
         <div class="text-center mb-8">
-          <h1 class="text-2xl font-extrabold text-slate-800 mb-2">Test mavzulari</h1>
-          <p class="text-slate-500">Bilimingizni sinash uchun quyidagi bo'limlardan birini tanlang</p>
+          <h1 class="text-2xl font-extrabold text-slate-800 mb-2">
+            Test mavzulari
+          </h1>
+          <p class="text-slate-500">
+            Bilimingizni sinash uchun quyidagi bo'limlardan birini tanlang
+          </p>
         </div>
 
         <div id="topics-list" class="grid grid-cols-1 gap-4"></div>
 
-        <div class="mt-6 pt-6 fixed bottom-0 left-0 right-0 max-w-3xl mx-auto bg-blue-50 border-t border-slate-200">
+        <div
+          class="mt-6 pt-6 fixed bottom-0 left-0 right-0 max-w-3xl mx-auto bg-blue-50 border-t border-slate-200"
+        >
           <button
             onclick="startMixedTest()"
             class="w-full bg-gradient-to-r from-purple-600 to-blue-600 text-white px-6 py-4 rounded-2xl font-bold hover:from-purple-700 hover:to-blue-700 shadow-lg shadow-purple-200 transition-all text-lg"
           >
             🎯 IMTIHON REJIM (Jami 40ta savol)
           </button>
-          <p class="text-center text-sm text-slate-500 mt-3">Barcha mavzulardan random savollar</p>
+          <p class="text-center text-sm text-slate-500 mt-3">
+            Barcha mavzulardan random savollar
+          </p>
         </div>
       </div>
 
       <!-- ============ QUIZ SAHIFASI ============ -->
       <div id="quiz-screen" class="hidden flex-col h-full">
         <div class="h-2 bg-slate-100">
-          <div id="progress-bar" class="h-full w-0 bg-blue-600 transition-all duration-500"></div>
+          <div
+            id="progress-bar"
+            class="h-full w-0 bg-blue-600 transition-all duration-500"
+          ></div>
         </div>
 
         <div class="px-8 pt-4 pb-2">
@@ -118,15 +232,36 @@
 
         <div class="p-8 flex-grow overflow-y-auto">
           <div class="flex justify-between items-center mb-8">
-            <button onclick="showTopicsScreen()" class="text-slate-500 font-semibold flex items-center hover:text-blue-600 transition-colors">
-              <svg class="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+            <button
+              onclick="showTopicsScreen()"
+              class="text-slate-500 font-semibold flex items-center hover:text-blue-600 transition-colors"
+            >
+              <svg
+                class="w-5 h-5 mr-1"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M15 19l-7-7 7-7"
+                ></path>
+              </svg>
               Mavzular
             </button>
-            <span id="counter" class="bg-blue-100 text-blue-700 px-4 py-1 rounded-full text-xs font-bold uppercase tracking-wider"></span>
+            <span
+              id="counter"
+              class="bg-blue-100 text-blue-700 px-4 py-1 rounded-full text-xs font-bold uppercase tracking-wider"
+            ></span>
           </div>
 
           <div id="question-area">
-            <h2 id="question-text" class="text-xl text-slate-800 font-bold mb-10 leading-snug"></h2>
+            <h2
+              id="question-text"
+              class="text-xl text-slate-800 font-bold mb-10 leading-snug"
+            ></h2>
             <div id="options-container" class="grid grid-cols-1 gap-3"></div>
 
             <div class="mt-6 pt-6 border-t border-slate-200">
@@ -134,7 +269,19 @@
                 onclick="nextUnansweredQuestion()"
                 class="w-full bg-slate-200 text-slate-700 px-6 py-3 rounded-xl font-semibold hover:bg-slate-300 transition-all flex items-center justify-center gap-2"
               >
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5l7 7-7 7M5 5l7 7-7 7"></path></svg>
+                <svg
+                  class="w-5 h-5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M13 5l7 7-7 7M5 5l7 7-7 7"
+                  ></path>
+                </svg>
                 Keyingi javobsiz savol (Space)
               </button>
             </div>
@@ -143,7 +290,10 @@
       </div>
 
       <!-- ============ NATIJA SAHIFASI ============ -->
-      <div id="result-screen" class="hidden p-8 flex-col items-center justify-start overflow-y-auto">
+      <div
+        id="result-screen"
+        class="hidden p-8 flex-col items-center justify-start overflow-y-auto"
+      >
         <div id="result-status-icon" class="mb-6 p-4 rounded-full"></div>
         <h2 class="text-3xl font-bold text-slate-800 mb-2">Test Yakunlandi</h2>
         <p id="final-score-text" class="text-lg text-slate-600 mb-8"></p>
@@ -151,55 +301,121 @@
         <div id="mistakes-container" class="w-full mb-8"></div>
 
         <div class="flex flex-col sm:flex-row gap-4 w-full justify-center">
-          <button onclick="restartTopic()" class="bg-blue-600 text-white px-10 py-3 rounded-xl font-bold hover:bg-blue-700 shadow-lg shadow-blue-200 transition-all">
+          <button
+            onclick="restartTopic()"
+            class="bg-blue-600 text-white px-10 py-3 rounded-xl font-bold hover:bg-blue-700 shadow-lg shadow-blue-200 transition-all"
+          >
             Qayta urinish
           </button>
-          <button onclick="showTopicsScreen()" class="bg-slate-200 text-slate-700 px-10 py-3 rounded-xl font-bold hover:bg-slate-300 transition-all">
+          <button
+            onclick="showTopicsScreen()"
+            class="bg-slate-200 text-slate-700 px-10 py-3 rounded-xl font-bold hover:bg-slate-300 transition-all"
+          >
             Boshqa mavzu
           </button>
         </div>
       </div>
 
       <!-- ============ GRAMMATIKA SAHIFASI ============ -->
-      <div id="grammar-screen" class="hidden p-8 flex-col flex-grow overflow-y-auto">
-        <button onclick="grammarBack()" id="grammar-back-btn" class="mb-6 text-slate-500 font-semibold flex items-center hover:text-blue-600 transition-colors">
-          <svg class="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+      <div
+        id="grammar-screen"
+        class="hidden p-8 flex-col flex-grow overflow-y-auto"
+      >
+        <button
+          onclick="grammarBack()"
+          id="grammar-back-btn"
+          class="mb-6 text-slate-500 font-semibold flex items-center hover:text-blue-600 transition-colors"
+        >
+          <svg
+            class="w-5 h-5 mr-1"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M15 19l-7-7 7-7"
+            ></path>
+          </svg>
           <span id="grammar-back-label">Bosh sahifa</span>
         </button>
 
         <div id="grammar-list-view">
           <div class="text-center mb-8">
-            <h1 class="text-2xl font-extrabold text-slate-800 mb-2">📚 Grammatika</h1>
-            <p class="text-slate-500">Mavzuni tanlang va noldan tushunib boring</p>
+            <h1 class="text-2xl font-extrabold text-slate-800 mb-2">
+              📚 Grammatika
+            </h1>
+            <p class="text-slate-500">
+              Mavzuni tanlang va noldan tushunib boring
+            </p>
           </div>
           <div id="grammar-topics-list" class="grid grid-cols-1 gap-3"></div>
         </div>
 
         <div id="grammar-detail-view" class="hidden">
-          <h2 id="grammar-detail-title" class="text-2xl font-extrabold text-slate-800 mb-6"></h2>
-          <div id="grammar-detail-content" class="text-slate-700 leading-relaxed"></div>
+          <h2
+            id="grammar-detail-title"
+            class="text-2xl font-extrabold text-slate-800 mb-6"
+          ></h2>
+          <div
+            id="grammar-detail-content"
+            class="text-slate-700 leading-relaxed"
+          ></div>
         </div>
       </div>
 
       <!-- ============ LUG'AT SAHIFASI ============ -->
-      <div id="vocab-screen" class="hidden p-8 flex-col flex-grow overflow-y-auto">
-        <button onclick="vocabBack()" id="vocab-back-btn" class="mb-6 text-slate-500 font-semibold flex items-center hover:text-blue-600 transition-colors">
-          <svg class="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+      <div
+        id="vocab-screen"
+        class="hidden p-8 flex-col flex-grow overflow-y-auto"
+      >
+        <button
+          onclick="vocabBack()"
+          id="vocab-back-btn"
+          class="mb-6 text-slate-500 font-semibold flex items-center hover:text-blue-600 transition-colors"
+        >
+          <svg
+            class="w-5 h-5 mr-1"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M15 19l-7-7 7-7"
+            ></path>
+          </svg>
           <span id="vocab-back-label">Bosh sahifa</span>
         </button>
 
         <div id="vocab-list-view">
           <div class="text-center mb-8">
-            <h1 class="text-2xl font-extrabold text-slate-800 mb-2">🗂️ Lug'at</h1>
-            <p class="text-slate-500">Kategoriyani tanlang va kartochkani bosib tarjimasini ko'ring</p>
+            <h1 class="text-2xl font-extrabold text-slate-800 mb-2">
+              🗂️ Lug'at
+            </h1>
+            <p class="text-slate-500">
+              Kategoriyani tanlang va kartochkani bosib tarjimasini ko'ring
+            </p>
           </div>
           <div id="vocab-categories-list" class="grid grid-cols-2 gap-3"></div>
         </div>
 
         <div id="vocab-detail-view" class="hidden">
-          <h2 id="vocab-detail-title" class="text-2xl font-extrabold text-slate-800 mb-2"></h2>
-          <p class="text-sm text-slate-500 mb-6">Kartochkani bosing — tarjimasi chiqadi</p>
-          <div id="vocab-cards-grid" class="grid grid-cols-2 sm:grid-cols-3 gap-3"></div>
+          <h2
+            id="vocab-detail-title"
+            class="text-2xl font-extrabold text-slate-800 mb-2"
+          ></h2>
+          <p class="text-sm text-slate-500 mb-6">
+            Kartochkani bosing — tarjimasi chiqadi
+          </p>
+          <div
+            id="vocab-cards-grid"
+            class="grid grid-cols-2 sm:grid-cols-3 gap-3"
+          ></div>
         </div>
       </div>
     </div>
@@ -253,7 +469,14 @@
       const progressDots = document.getElementById("progress-dots");
 
       function hideAllScreens() {
-        [homeScreen, topicsScreen, quizScreen, resultScreen, grammarScreen, vocabScreen].forEach((s) => {
+        [
+          homeScreen,
+          topicsScreen,
+          quizScreen,
+          resultScreen,
+          grammarScreen,
+          vocabScreen,
+        ].forEach((s) => {
           s.classList.add("hidden");
           s.classList.remove("flex");
         });
@@ -336,7 +559,9 @@
         mistakesList = [];
         questionStatuses = [];
         answerHistory = [];
-        currentQuestions = shuffleArray(randomizeQuestions(quizDatabase[currentTopicKey].questions));
+        currentQuestions = shuffleArray(
+          randomizeQuestions(quizDatabase[currentTopicKey].questions),
+        );
         answerHistory = new Array(currentQuestions.length).fill(null);
         initProgressDots();
         hideAllScreens();
@@ -364,13 +589,16 @@
         });
 
         while (allQuestions.length < 40) {
-          const randomKey = topicKeys[Math.floor(Math.random() * topicKeys.length)];
+          const randomKey =
+            topicKeys[Math.floor(Math.random() * topicKeys.length)];
           const questions = quizDatabase[randomKey].questions;
           const selected = getRandomQuestions(questions, 1);
           allQuestions.push(...selected);
         }
 
-        currentQuestions = shuffleArray(randomizeQuestions(allQuestions.slice(0, 40)));
+        currentQuestions = shuffleArray(
+          randomizeQuestions(allQuestions.slice(0, 40)),
+        );
         answerHistory = new Array(currentQuestions.length).fill(null);
 
         initProgressDots();
@@ -384,7 +612,8 @@
         progressDots.innerHTML = "";
         for (let i = 0; i < currentQuestions.length; i++) {
           const dot = document.createElement("div");
-          dot.className = "w-4 h-4 rounded-full bg-slate-300 transition-all cursor-pointer hover:scale-125";
+          dot.className =
+            "w-4 h-4 rounded-full bg-slate-300 transition-all cursor-pointer hover:scale-125";
           dot.setAttribute("data-question", i);
           dot.onclick = () => goToQuestion(i);
           progressDots.appendChild(dot);
@@ -396,7 +625,13 @@
       function updateProgressDots() {
         const dots = progressDots.querySelectorAll("div");
         dots.forEach((dot, i) => {
-          dot.classList.remove("bg-slate-300", "bg-green-500", "bg-red-500", "ring-2", "ring-blue-400");
+          dot.classList.remove(
+            "bg-slate-300",
+            "bg-green-500",
+            "bg-red-500",
+            "ring-2",
+            "ring-blue-400",
+          );
           if (i === currentIdx) {
             dot.classList.add("ring-2", "ring-blue-400", "bg-blue-500");
           } else if (questionStatuses[i] === "correct") {
@@ -452,7 +687,8 @@
               btnClass += " border-slate-100 opacity-50 cursor-not-allowed";
             }
           } else {
-            btnClass += " border-slate-100 hover:border-blue-200 cursor-pointer";
+            btnClass +=
+              " border-slate-100 hover:border-blue-200 cursor-pointer";
           }
 
           btn.className = btnClass;
@@ -497,7 +733,8 @@
         if (e.key === "ArrowLeft") {
           e.preventDefault();
           let prevIdx = currentIdx - 1;
-          while (prevIdx >= 0 && questionStatuses[prevIdx] !== "pending") prevIdx--;
+          while (prevIdx >= 0 && questionStatuses[prevIdx] !== "pending")
+            prevIdx--;
           if (prevIdx >= 0) goToQuestion(prevIdx);
           return;
         }
@@ -505,7 +742,11 @@
         if (e.key === "ArrowRight") {
           e.preventDefault();
           let nextIdx = currentIdx + 1;
-          while (nextIdx < questionStatuses.length && questionStatuses[nextIdx] !== "pending") nextIdx++;
+          while (
+            nextIdx < questionStatuses.length &&
+            questionStatuses[nextIdx] !== "pending"
+          )
+            nextIdx++;
           if (nextIdx < questionStatuses.length) goToQuestion(nextIdx);
           return;
         }
@@ -539,10 +780,19 @@
       }
 
       function updateOptionHighlight(buttons) {
-        buttons.forEach((btn) => btn.classList.remove("ring-2", "ring-blue-400", "border-blue-400"));
+        buttons.forEach((btn) =>
+          btn.classList.remove("ring-2", "ring-blue-400", "border-blue-400"),
+        );
         if (selectedOption >= 0 && selectedOption < buttons.length) {
-          buttons[selectedOption].classList.add("ring-2", "ring-blue-400", "border-blue-400");
-          buttons[selectedOption].scrollIntoView({ behavior: "smooth", block: "nearest" });
+          buttons[selectedOption].classList.add(
+            "ring-2",
+            "ring-blue-400",
+            "border-blue-400",
+          );
+          buttons[selectedOption].scrollIntoView({
+            behavior: "smooth",
+            block: "nearest",
+          });
         }
       }
 
@@ -572,16 +822,24 @@
         const delayTime = isCorrect ? 1500 : 3000;
         setTimeout(() => {
           let nextIdx = currentIdx + 1;
-          while (nextIdx < questionStatuses.length && questionStatuses[nextIdx] !== "pending") nextIdx++;
+          while (
+            nextIdx < questionStatuses.length &&
+            questionStatuses[nextIdx] !== "pending"
+          )
+            nextIdx++;
 
           if (nextIdx < questionStatuses.length) {
             goToQuestion(nextIdx);
           } else {
-            const unansweredCount = questionStatuses.filter((s) => s === "pending").length;
+            const unansweredCount = questionStatuses.filter(
+              (s) => s === "pending",
+            ).length;
             if (unansweredCount === 0) {
               finishQuiz();
             } else {
-              const firstUnanswered = questionStatuses.findIndex((s) => s === "pending");
+              const firstUnanswered = questionStatuses.findIndex(
+                (s) => s === "pending",
+              );
               if (firstUnanswered !== -1) goToQuestion(firstUnanswered);
             }
           }
@@ -598,13 +856,16 @@
         const percent = Math.round((score / total) * 100);
 
         if (percent >= 80) {
-          statusIcon.className = "mb-6 p-4 rounded-full bg-green-100 text-green-600";
+          statusIcon.className =
+            "mb-6 p-4 rounded-full bg-green-100 text-green-600";
           statusIcon.innerHTML = `<svg class="w-16 h-16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>`;
         } else if (percent >= 50) {
-          statusIcon.className = "mb-6 p-4 rounded-full bg-blue-100 text-blue-600";
+          statusIcon.className =
+            "mb-6 p-4 rounded-full bg-blue-100 text-blue-600";
           statusIcon.innerHTML = `<svg class="w-16 h-16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>`;
         } else {
-          statusIcon.className = "mb-6 p-4 rounded-full bg-red-100 text-red-600";
+          statusIcon.className =
+            "mb-6 p-4 rounded-full bg-red-100 text-red-600";
           statusIcon.innerHTML = `<svg class="w-16 h-16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>`;
         }
 
@@ -617,18 +878,21 @@
         mistakesContainer.innerHTML = "";
 
         if (mistakesList.length === 0) {
-          mistakesContainer.innerHTML = "<p class=\"text-green-600 font-bold text-center\">🎉 Barcha savollarni to'g'ri topdingiz!</p>";
+          mistakesContainer.innerHTML =
+            "<p class=\"text-green-600 font-bold text-center\">🎉 Barcha savollarni to'g'ri topdingiz!</p>";
           return;
         }
 
         const title = document.createElement("h3");
-        title.className = "text-xl font-bold text-red-600 mb-4 text-center w-full";
+        title.className =
+          "text-xl font-bold text-red-600 mb-4 text-center w-full";
         title.innerText = `❌ Xato qilgan savollar (${mistakesList.length})`;
         mistakesContainer.appendChild(title);
 
         mistakesList.forEach((mistake) => {
           const card = document.createElement("div");
-          card.className = "mb-4 p-4 bg-red-50 border-l-4 border-red-500 rounded-lg w-full";
+          card.className =
+            "mb-4 p-4 bg-red-50 border-l-4 border-red-500 rounded-lg w-full";
           card.innerHTML = `
                     <div class="mb-2">
                         <span class="bg-red-500 text-white px-3 py-1 rounded text-sm font-bold">${mistake.questionNumber}-savol</span>
@@ -702,10 +966,15 @@
         if (!topic) return;
         grammarInDetail = true;
         document.getElementById("grammar-list-view").classList.add("hidden");
-        document.getElementById("grammar-detail-view").classList.remove("hidden");
-        document.getElementById("grammar-detail-title").innerText = `${topic.icon} ${topic.title}`;
-        document.getElementById("grammar-detail-content").innerHTML = topic.content;
-        document.getElementById("grammar-back-label").innerText = "Mavzular ro'yxati";
+        document
+          .getElementById("grammar-detail-view")
+          .classList.remove("hidden");
+        document.getElementById("grammar-detail-title").innerText =
+          `${topic.icon} ${topic.title}`;
+        document.getElementById("grammar-detail-content").innerHTML =
+          topic.content;
+        document.getElementById("grammar-back-label").innerText =
+          "Mavzular ro'yxati";
         grammarScreen.scrollTop = 0;
       }
 
@@ -759,24 +1028,34 @@
         vocabInDetail = true;
         document.getElementById("vocab-list-view").classList.add("hidden");
         document.getElementById("vocab-detail-view").classList.remove("hidden");
-        document.getElementById("vocab-detail-title").innerText = `${cat.icon} ${cat.title}`;
+        document.getElementById("vocab-detail-title").innerText =
+          `${cat.icon} ${cat.title}`;
         document.getElementById("vocab-back-label").innerText = "Kategoriyalar";
 
         const grid = document.getElementById("vocab-cards-grid");
         grid.innerHTML = "";
         cat.words.forEach((word) => {
           const card = document.createElement("div");
-          card.className = "flip-card relative h-24 rounded-xl border-2 border-slate-200 bg-white shadow-sm";
+          card.className =
+            "flip-card relative h-24 rounded-xl border-2 border-slate-200 bg-white shadow-sm";
           card.innerHTML = `
             <div class="flip-inner relative w-full h-full">
               <div class="flip-front">
-                <span class="font-bold text-slate-800">${word.en}</span>
+                <span class="font-bold text-slate-800 pr-6">${word.en}</span>
+                <button class="speak-btn absolute top-1.5 right-1.5 p-1.5 rounded-full bg-blue-50 hover:bg-blue-100 text-blue-600" aria-label="Talaffuzni eshitish">
+                  <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.383 3.076A1 1 0 0110 4v12a1 1 0 01-1.707.707L4.586 13H2a1 1 0 01-1-1V8a1 1 0 011-1h2.586l3.707-3.707a1 1 0 011.09-.217zM14.657 5.343a1 1 0 011.414 0A7.975 7.975 0 0118 10a7.975 7.975 0 01-1.929 5.657 1 1 0 11-1.414-1.414A5.975 5.975 0 0016 10a5.975 5.975 0 00-1.343-3.243 1 1 0 010-1.414z"></path></svg>
+                </button>
               </div>
               <div class="flip-back bg-blue-600 rounded-xl">
                 <span class="font-bold text-white">${word.uz}</span>
               </div>
             </div>
           `;
+          const speakBtn = card.querySelector(".speak-btn");
+          speakBtn.onclick = (e) => {
+            e.stopPropagation();
+            speakWord(word.en, speakBtn);
+          };
           card.onclick = () => card.classList.toggle("flipped");
           grid.appendChild(card);
         });
@@ -789,6 +1068,44 @@
         } else {
           showHome();
         }
+      }
+
+      // ===================== TALAFFUZ (SPEECH SYNTHESIS) =====================
+      let englishVoice = null;
+
+      function loadEnglishVoice() {
+        const voices = window.speechSynthesis.getVoices();
+        englishVoice =
+          voices.find((v) => v.lang === "en-US") ||
+          voices.find((v) => v.lang && v.lang.startsWith("en")) ||
+          null;
+      }
+
+      if ("speechSynthesis" in window) {
+        loadEnglishVoice();
+        window.speechSynthesis.onvoiceschanged = loadEnglishVoice;
+      }
+
+      function speakWord(text, btnEl) {
+        if (!("speechSynthesis" in window)) {
+          alert(
+            "Kechirasiz, brauzeringiz ovozli talaffuzni qo'llab-quvvatlamaydi.",
+          );
+          return;
+        }
+        window.speechSynthesis.cancel();
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = "en-US";
+        if (englishVoice) utterance.voice = englishVoice;
+        utterance.rate = 0.9;
+
+        if (btnEl) {
+          btnEl.classList.add("speaking");
+          utterance.onend = () => btnEl.classList.remove("speaking");
+          utterance.onerror = () => btnEl.classList.remove("speaking");
+        }
+
+        window.speechSynthesis.speak(utterance);
       }
 
       window.onload = showHome;
