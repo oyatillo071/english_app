@@ -23,8 +23,8 @@
       .flip-front, .flip-back {
         backface-visibility: hidden;
         position: absolute; inset: 0;
-        display: flex; align-items: center; justify-content: center;
-        text-align: center; padding: 0.75rem;
+        display: flex; flex-direction: column; align-items: center; justify-content: center;
+        text-align: center; padding: 0.75rem; gap: 0.25rem;
       }
       .flip-back { transform: rotateY(180deg); }
       .home-card:hover { transform: translateY(-4px); }
@@ -49,6 +49,9 @@
           <p class="text-slate-500">
             Darajangizni tanlang va o'rganishni boshlang
           </p>
+          <button onclick="showTipsScreen()" class="mt-3 text-sm text-blue-600 font-semibold hover:text-blue-800 inline-flex items-center gap-1">
+            💡 O'rganish bo'yicha tavsiyalarni ko'rish
+          </button>
         </div>
 
         <div id="level-cards-list" class="grid grid-cols-1 gap-4"></div>
@@ -98,6 +101,28 @@
             </div>
             <svg class="w-6 h-6 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
           </button>
+
+          <button
+            onclick="showExercisesScreen()"
+            class="home-card transition-all p-6 bg-white border-2 border-slate-200 rounded-2xl text-left flex justify-between items-center hover:border-orange-400 hover:bg-orange-50"
+          >
+            <div>
+              <h3 class="font-extrabold text-lg text-slate-800">🧩 Mashqlar</h3>
+              <p class="text-sm text-slate-500 mt-1">Bo'sh joy to'ldirish, gap tuzish, xato topish va boshqalar</p>
+            </div>
+            <svg class="w-6 h-6 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+          </button>
+
+          <button
+            onclick="showHistoryScreen()"
+            class="home-card transition-all p-6 bg-white border-2 border-slate-200 rounded-2xl text-left flex justify-between items-center hover:border-green-400 hover:bg-green-50"
+          >
+            <div>
+              <h3 class="font-extrabold text-lg text-slate-800">📊 Natijalarim</h3>
+              <p class="text-sm text-slate-500 mt-1">O'tgan testlaringiz va yutuqlaringizni ko'ring</p>
+            </div>
+            <svg class="w-6 h-6 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+          </button>
         </div>
       </div>
 
@@ -114,14 +139,19 @@
 
         <div id="topics-list" class="grid grid-cols-1 gap-4"></div>
 
-        <div class="mt-6 pt-6 fixed bottom-0 left-0 right-0 max-w-3xl mx-auto bg-blue-50 border-t border-slate-200">
+        <div class="mt-6 pt-6 fixed bottom-0 left-0 right-0 max-w-3xl mx-auto bg-blue-50 border-t border-slate-200 flex flex-col sm:flex-row gap-2">
           <button
             onclick="startMixedTest()"
-            class="w-full bg-gradient-to-r from-purple-600 to-blue-600 text-white px-6 py-4 rounded-2xl font-bold hover:from-purple-700 hover:to-blue-700 shadow-lg shadow-purple-200 transition-all text-lg"
+            class="flex-1 bg-gradient-to-r from-purple-600 to-blue-600 text-white px-6 py-4 rounded-2xl font-bold hover:from-purple-700 hover:to-blue-700 shadow-lg shadow-purple-200 transition-all text-base"
           >
-            🎯 IMTIHON REJIM (Jami 40ta savol)
+            🎯 IMTIHON REJIM (40 savol)
           </button>
-          <p class="text-center text-sm text-slate-500 mt-3">Barcha mavzulardan random savollar</p>
+          <button
+            onclick="startAdaptiveTest()"
+            class="flex-1 bg-gradient-to-r from-orange-500 to-red-500 text-white px-6 py-4 rounded-2xl font-bold hover:from-orange-600 hover:to-red-600 shadow-lg shadow-orange-200 transition-all text-base"
+          >
+            🔥 Moslashuvchan test (12 savol)
+          </button>
         </div>
       </div>
 
@@ -136,17 +166,23 @@
         </div>
 
         <div class="p-8 flex-grow overflow-y-auto">
-          <div class="flex justify-between items-center mb-8">
+          <div class="flex justify-between items-center mb-4">
             <button onclick="showTopicsScreen()" class="text-slate-500 font-semibold flex items-center hover:text-blue-600 transition-colors">
               <svg class="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
               Mavzular
             </button>
-            <span id="counter" class="bg-blue-100 text-blue-700 px-4 py-1 rounded-full text-xs font-bold uppercase tracking-wider"></span>
+            <div class="flex items-center gap-2">
+              <span id="difficulty-badge" class="hidden px-3 py-1 rounded-full text-xs font-bold"></span>
+              <span id="counter" class="bg-blue-100 text-blue-700 px-4 py-1 rounded-full text-xs font-bold uppercase tracking-wider"></span>
+            </div>
           </div>
+          <div class="mb-4"></div>
 
           <div id="question-area">
             <h2 id="question-text" class="text-xl text-slate-800 font-bold mb-10 leading-snug"></h2>
             <div id="options-container" class="grid grid-cols-1 gap-3"></div>
+
+            <div id="explanation-box" class="hidden mt-4 p-4 rounded-xl bg-blue-50 border border-blue-200 text-sm text-blue-800"></div>
 
             <div class="mt-6 pt-6 border-t border-slate-200">
               <button
@@ -216,10 +252,73 @@
         </div>
 
         <div id="vocab-detail-view" class="hidden">
-          <h2 id="vocab-detail-title" class="text-2xl font-extrabold text-slate-800 mb-2"></h2>
-          <p class="text-sm text-slate-500 mb-6">Kartochkani bosing — tarjimasi chiqadi</p>
+          <h2 id="vocab-detail-title" class="text-2xl font-extrabold text-slate-800 mb-1"></h2>
+          <div class="flex items-center justify-between mb-4">
+            <p class="text-sm text-slate-500">Kartochkani bosing — tarjimasi chiqadi. 🔊 — talaffuz, ⭐ — yodladim</p>
+          </div>
+          <div class="h-2 bg-slate-100 rounded-full mb-4 overflow-hidden">
+            <div id="vocab-progress-bar" class="h-full bg-green-500 transition-all duration-300" style="width:0%"></div>
+          </div>
+          <p id="vocab-progress-text" class="text-xs text-slate-400 mb-4"></p>
           <div id="vocab-cards-grid" class="grid grid-cols-2 sm:grid-cols-3 gap-3"></div>
         </div>
+      </div>
+
+      <!-- ============ MASHQLAR (EXERCISES) SAHIFASI ============ -->
+      <div id="exercises-screen" class="hidden p-8 flex-col flex-grow overflow-y-auto">
+        <button onclick="showSectionScreen()" class="mb-6 text-slate-500 font-semibold flex items-center hover:text-blue-600 transition-colors">
+          <svg class="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+          Bo'limlar
+        </button>
+        <div class="text-center mb-8">
+          <h1 class="text-2xl font-extrabold text-slate-800 mb-2">🧩 Mashqlar</h1>
+          <p class="text-slate-500">Turli xil mashqlar bilan bilimingizni sinab ko'ring</p>
+        </div>
+        <div id="exercise-types-list" class="grid grid-cols-1 gap-3"></div>
+      </div>
+
+      <!-- ============ MASHQ O'YNASH SAHIFASI ============ -->
+      <div id="exercise-play-screen" class="hidden flex-col h-full">
+        <div class="h-2 bg-slate-100">
+          <div id="exercise-progress-bar" class="h-full w-0 bg-blue-600 transition-all duration-500"></div>
+        </div>
+        <div class="p-8 flex-grow overflow-y-auto">
+          <div class="flex justify-between items-center mb-8">
+            <button onclick="showExercisesScreen()" class="text-slate-500 font-semibold flex items-center hover:text-blue-600 transition-colors">
+              <svg class="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+              Mashqlar
+            </button>
+            <span id="exercise-counter" class="bg-blue-100 text-blue-700 px-4 py-1 rounded-full text-xs font-bold uppercase tracking-wider"></span>
+          </div>
+          <div id="exercise-content"></div>
+        </div>
+      </div>
+
+      <!-- ============ NATIJALARIM (HISTORY) SAHIFASI ============ -->
+      <div id="history-screen" class="hidden p-8 flex-col flex-grow overflow-y-auto">
+        <button onclick="showSectionScreen()" class="mb-6 text-slate-500 font-semibold flex items-center hover:text-blue-600 transition-colors">
+          <svg class="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+          Bo'limlar
+        </button>
+        <div class="flex items-center justify-between mb-6">
+          <h1 class="text-2xl font-extrabold text-slate-800">📊 Natijalarim</h1>
+          <button onclick="clearHistoryForLevel()" class="text-xs text-red-500 font-semibold hover:text-red-700">Tozalash</button>
+        </div>
+        <div id="history-summary" class="grid grid-cols-3 gap-3 mb-6"></div>
+        <div id="history-list" class="space-y-3"></div>
+      </div>
+
+      <!-- ============ TAVSIYALAR SAHIFASI ============ -->
+      <div id="tips-screen" class="hidden p-8 flex-col flex-grow overflow-y-auto">
+        <button onclick="showHome()" class="mb-6 text-slate-500 font-semibold flex items-center hover:text-blue-600 transition-colors">
+          <svg class="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+          Darajalar
+        </button>
+        <div class="text-center mb-8">
+          <h1 class="text-2xl font-extrabold text-slate-800 mb-2">💡 O'rganish bo'yicha tavsiyalar</h1>
+          <p class="text-slate-500">Ingliz tilini samarali o'rganish uchun maslahatlar</p>
+        </div>
+        <div id="tips-list" class="space-y-4"></div>
       </div>
     </div>
 
@@ -248,6 +347,11 @@
       let score = 0;
       let currentQuestions = [];
       let isMixedTest = false;
+      let isAdaptiveTest = false;
+      let adaptiveStreak = 0;
+      let adaptivePool = [];
+      let adaptiveUsedKeys = new Set();
+      const ADAPTIVE_LENGTH = 12;
       let mistakesList = [];
       let selectedTopic = null;
       let selectedOption = -1;
@@ -263,6 +367,10 @@
       const resultScreen = document.getElementById("result-screen");
       const grammarScreen = document.getElementById("grammar-screen");
       const vocabScreen = document.getElementById("vocab-screen");
+      const exercisesScreen = document.getElementById("exercises-screen");
+      const exercisePlayScreen = document.getElementById("exercise-play-screen");
+      const historyScreen = document.getElementById("history-screen");
+      const tipsScreen = document.getElementById("tips-screen");
 
       const levelCardsList = document.getElementById("level-cards-list");
       const topicsList = document.getElementById("topics-list");
@@ -276,12 +384,79 @@
       const progressDots = document.getElementById("progress-dots");
 
       function hideAllScreens() {
-        [homeScreen, sectionScreen, topicsScreen, quizScreen, resultScreen, grammarScreen, vocabScreen].forEach((s) => {
+        [homeScreen, sectionScreen, topicsScreen, quizScreen, resultScreen, grammarScreen, vocabScreen, exercisesScreen, exercisePlayScreen, historyScreen, tipsScreen].forEach((s) => {
           s.classList.add("hidden");
           s.classList.remove("flex");
         });
         document.removeEventListener("keydown", handleMenuNavigation);
         document.removeEventListener("keydown", handleQuizNavigation);
+      }
+
+      // ===================== LOCALSTORAGE: NATIJALAR VA LUG'AT PROGRESSI =====================
+      const RESULTS_KEY = "engapp_results_v1";
+      const VOCAB_LEARNED_KEY = "engapp_vocab_learned_v1";
+
+      function loadResults() {
+        try {
+          return JSON.parse(localStorage.getItem(RESULTS_KEY)) || [];
+        } catch (e) {
+          return [];
+        }
+      }
+
+      function saveResult(entry) {
+        const results = loadResults();
+        results.push(entry);
+        try {
+          localStorage.setItem(RESULTS_KEY, JSON.stringify(results));
+        } catch (e) {
+          console.warn("Natijani saqlab bo'lmadi:", e);
+        }
+      }
+
+      function getBestScore(levelKey, topicKey) {
+        const results = loadResults().filter((r) => r.level === levelKey && r.topicKey === topicKey && r.type === "quiz");
+        if (results.length === 0) return null;
+        return Math.max(...results.map((r) => r.percent));
+      }
+
+      function clearHistoryForLevel() {
+        if (!confirm("Ushbu daraja bo'yicha barcha natijalar tarixi o'chirilsinmi?")) return;
+        const results = loadResults().filter((r) => r.level !== currentLevelKey);
+        localStorage.setItem(RESULTS_KEY, JSON.stringify(results));
+        renderHistory();
+      }
+
+      function loadVocabLearned() {
+        try {
+          return JSON.parse(localStorage.getItem(VOCAB_LEARNED_KEY)) || {};
+        } catch (e) {
+          return {};
+        }
+      }
+
+      function isWordLearned(levelKey, catKey, word) {
+        const data = loadVocabLearned();
+        return !!(data[levelKey] && data[levelKey][catKey] && data[levelKey][catKey].includes(word));
+      }
+
+      function toggleWordLearned(levelKey, catKey, word) {
+        const data = loadVocabLearned();
+        if (!data[levelKey]) data[levelKey] = {};
+        if (!data[levelKey][catKey]) data[levelKey][catKey] = [];
+        const idx = data[levelKey][catKey].indexOf(word);
+        if (idx === -1) {
+          data[levelKey][catKey].push(word);
+        } else {
+          data[levelKey][catKey].splice(idx, 1);
+        }
+        localStorage.setItem(VOCAB_LEARNED_KEY, JSON.stringify(data));
+        return idx === -1;
+      }
+
+      function getCategoryLearnedCount(levelKey, catKey) {
+        const data = loadVocabLearned();
+        return data[levelKey] && data[levelKey][catKey] ? data[levelKey][catKey].length : 0;
       }
 
       // ===================== DARAJA TANLASH =====================
@@ -346,12 +521,19 @@
         topicsList.innerHTML = "";
         Object.keys(currentLevelData.quizDatabase).forEach((key, index) => {
           const topic = currentLevelData.quizDatabase[key];
+          const best = getBestScore(currentLevelKey, key);
+          const badge = best !== null
+            ? `<span class="text-xs font-bold px-2 py-1 rounded-full ${best >= 80 ? "bg-green-100 text-green-700" : best >= 50 ? "bg-yellow-100 text-yellow-700" : "bg-red-100 text-red-700"}">${best}%</span>`
+            : "";
           const btn = document.createElement("button");
           btn.className =
             "p-5 bg-white border-2 border-slate-200 rounded-2xl text-left hover:border-blue-400 hover:bg-blue-50 transition-all flex justify-between items-center group focus:border-blue-600 focus:ring-2 focus:ring-blue-300";
           btn.innerHTML = `
                     <div class="pr-4">
-                        <h3 class="font-bold text-slate-800 group-hover:text-blue-700">${topic.title}</h3>
+                        <div class="flex items-center gap-2">
+                          <h3 class="font-bold text-slate-800 group-hover:text-blue-700">${topic.title}</h3>
+                          ${badge}
+                        </div>
                         <p class="text-sm text-slate-400">${topic.questions.length} ta savol</p>
                     </div>
                     <div class="bg-slate-100 p-2 rounded-lg group-hover:bg-blue-100 transition-colors">
@@ -393,16 +575,20 @@
       }
 
       // ===================== QUIZNI BOSHLASH =====================
-      function startQuiz(key) {
-        isMixedTest = false;
-        currentTopicKey = key;
+      // ---- Umumiy yordamchi funksiyalar (optimizatsiya uchun) ----
+      function attachExplanation(questions, explanation) {
+        return questions.map((q) => ({ ...q, explanation }));
+      }
+
+      function resetQuizState() {
         currentIdx = 0;
         score = 0;
         mistakesList = [];
         questionStatuses = [];
         answerHistory = [];
-        currentQuestions = shuffleArray(randomizeQuestions(currentLevelData.quizDatabase[currentTopicKey].questions));
-        answerHistory = new Array(currentQuestions.length).fill(null);
+      }
+
+      function enterQuizScreen() {
         initProgressDots();
         hideAllScreens();
         quizScreen.classList.remove("hidden");
@@ -410,39 +596,107 @@
         loadQuestion();
       }
 
+      function startQuiz(key) {
+        isMixedTest = false;
+        isAdaptiveTest = false;
+        currentTopicKey = key;
+        resetQuizState();
+        const topic = currentLevelData.quizDatabase[key];
+        const withExplanation = attachExplanation(topic.questions, topic.explanation);
+        currentQuestions = shuffleArray(randomizeQuestions(withExplanation));
+        answerHistory = new Array(currentQuestions.length).fill(null);
+        enterQuizScreen();
+      }
+
       function startMixedTest() {
         isMixedTest = true;
+        isAdaptiveTest = false;
         currentTopicKey = "mixedTest";
-        currentIdx = 0;
-        score = 0;
-        mistakesList = [];
-        questionStatuses = [];
-        answerHistory = [];
+        resetQuizState();
 
         const allQuestions = [];
         const topicKeys = Object.keys(currentLevelData.quizDatabase);
 
         topicKeys.forEach((key) => {
-          const questions = currentLevelData.quizDatabase[key].questions;
-          const selected = getRandomQuestions(questions, 3);
+          const topic = currentLevelData.quizDatabase[key];
+          const selected = getRandomQuestions(attachExplanation(topic.questions, topic.explanation), 3);
           allQuestions.push(...selected);
         });
 
         while (allQuestions.length < 40) {
           const randomKey = topicKeys[Math.floor(Math.random() * topicKeys.length)];
-          const questions = currentLevelData.quizDatabase[randomKey].questions;
-          const selected = getRandomQuestions(questions, 1);
+          const topic = currentLevelData.quizDatabase[randomKey];
+          const selected = getRandomQuestions(attachExplanation(topic.questions, topic.explanation), 1);
           allQuestions.push(...selected);
         }
 
         currentQuestions = shuffleArray(randomizeQuestions(allQuestions.slice(0, 40)));
         answerHistory = new Array(currentQuestions.length).fill(null);
+        enterQuizScreen();
+      }
 
-        initProgressDots();
+      // ---- Moslashuvchan test (Adaptive Learning) ----
+      function buildAdaptivePool() {
+        const pool = [];
+        Object.keys(currentLevelData.quizDatabase).forEach((topicKey) => {
+          const topic = currentLevelData.quizDatabase[topicKey];
+          topic.questions.forEach((q, idx) => {
+            pool.push({ ...q, explanation: topic.explanation, _key: `${topicKey}_${idx}` });
+          });
+        });
+        return pool;
+      }
+
+      function pickAdaptiveQuestion(difficulty) {
+        let pool = adaptivePool.filter((q) => q.difficulty === difficulty && !adaptiveUsedKeys.has(q._key));
+        if (pool.length === 0) pool = adaptivePool.filter((q) => !adaptiveUsedKeys.has(q._key));
+        if (pool.length === 0) pool = adaptivePool;
+        const chosen = pool[Math.floor(Math.random() * pool.length)];
+        adaptiveUsedKeys.add(chosen._key);
+        const randomized = randomizeQuestions([chosen])[0];
+        randomized.explanation = chosen.explanation;
+        randomized.difficulty = chosen.difficulty;
+        return randomized;
+      }
+
+      function nextAdaptiveDifficulty(wasCorrect) {
+        if (!wasCorrect) return "easy";
+        if (adaptiveStreak >= 3) return "hard";
+        return "medium";
+      }
+
+      function startAdaptiveTest() {
+        isMixedTest = false;
+        isAdaptiveTest = true;
+        currentTopicKey = "adaptiveTest";
+        resetQuizState();
+        adaptiveStreak = 0;
+        adaptiveUsedKeys = new Set();
+        adaptivePool = buildAdaptivePool();
+
+        currentQuestions = [pickAdaptiveQuestion("medium")];
+        answerHistory = new Array(ADAPTIVE_LENGTH).fill(null);
+        questionStatuses = new Array(ADAPTIVE_LENGTH).fill("pending");
+        initAdaptiveDots();
+
         hideAllScreens();
         quizScreen.classList.remove("hidden");
         quizScreen.classList.add("flex");
         loadQuestion();
+      }
+
+      function initAdaptiveDots() {
+        progressDots.innerHTML = "";
+        for (let i = 0; i < ADAPTIVE_LENGTH; i++) {
+          const dot = document.createElement("div");
+          dot.className = "w-4 h-4 rounded-full bg-slate-300 transition-all cursor-pointer hover:scale-125";
+          dot.setAttribute("data-question", i);
+          dot.onclick = () => {
+            if (i < currentQuestions.length) goToQuestion(i);
+          };
+          progressDots.appendChild(dot);
+        }
+        updateProgressDots();
       }
 
       function initProgressDots() {
@@ -474,6 +728,43 @@
         });
       }
 
+      // ---- Yordamchi ko'rsatish funksiyalari (optimizatsiya) ----
+      function getTotalQuestionCount() {
+        return isAdaptiveTest ? ADAPTIVE_LENGTH : currentQuestions.length;
+      }
+
+      function difficultyInfo(diff) {
+        const map = {
+          easy: { label: "🟢 Oson", cls: "bg-green-100 text-green-700" },
+          medium: { label: "🟡 O'rta", cls: "bg-yellow-100 text-yellow-700" },
+          hard: { label: "🔴 Qiyin", cls: "bg-red-100 text-red-700" },
+        };
+        return map[diff] || null;
+      }
+
+      function renderDifficultyBadge(qData) {
+        const badge = document.getElementById("difficulty-badge");
+        const info = qData.difficulty ? difficultyInfo(qData.difficulty) : null;
+        if (info && isAdaptiveTest) {
+          badge.className = `px-3 py-1 rounded-full text-xs font-bold ${info.cls}`;
+          badge.innerText = info.label;
+        } else {
+          badge.className = "hidden";
+        }
+      }
+
+      function renderExplanationBox(qData, isAnswered) {
+        const box = document.getElementById("explanation-box");
+        if (isAnswered && qData.explanation) {
+          const correctText = qData.options[qData.correct];
+          box.classList.remove("hidden");
+          box.innerHTML = `<b>To'g'ri javob: "${correctText}".</b><br>${qData.explanation}`;
+        } else {
+          box.classList.add("hidden");
+          box.innerHTML = "";
+        }
+      }
+
       function goToQuestion(idx) {
         currentIdx = idx;
         selectedOption = -1;
@@ -493,22 +784,25 @@
       function loadQuestion() {
         selectedOption = -1;
         const qData = currentQuestions[currentIdx];
+        const total = getTotalQuestionCount();
 
-        progressBar.style.width = `${(currentIdx / currentQuestions.length) * 100}%`;
-        counter.innerText = `${currentIdx + 1} / ${currentQuestions.length}`;
+        progressBar.style.width = `${(currentIdx / total) * 100}%`;
+        counter.innerText = `${currentIdx + 1} / ${total}`;
         questionText.innerText = qData.q.replace(/\[.*?\]/g, "");
+        renderDifficultyBadge(qData);
+
+        const isAnswered = answerHistory[currentIdx] !== null;
 
         optionsContainer.innerHTML = "";
         qData.options.forEach((opt, i) => {
           const btn = document.createElement("button");
-          const isAnswered = answerHistory[currentIdx] !== null;
           const isSelected = answerHistory[currentIdx] === i;
 
           let btnClass =
             "option-card p-4 rounded-xl border-2 text-left flex items-start transition-all bg-white shadow-sm focus:ring-2 focus:ring-blue-400";
 
           if (isAnswered) {
-            const correct = currentQuestions[currentIdx].correct;
+            const correct = qData.correct;
             if (i === correct) {
               btnClass += " border-green-500 bg-green-50";
             } else if (isSelected) {
@@ -522,7 +816,7 @@
 
           btn.className = btnClass;
           btn.innerHTML = `
-                    <span class="w-7 h-7 rounded-lg text-slate-500 flex items-center justify-center text-xs font-bold mr-4 mt-0.5 shrink-0 transition-colors ${isAnswered && (i === currentQuestions[currentIdx].correct ? "bg-green-500 text-white" : isSelected ? "bg-red-500 text-white" : "bg-slate-100")}">${String.fromCharCode(65 + i)}</span>
+                    <span class="w-7 h-7 rounded-lg text-slate-500 flex items-center justify-center text-xs font-bold mr-4 mt-0.5 shrink-0 transition-colors ${isAnswered && (i === qData.correct ? "bg-green-500 text-white" : isSelected ? "bg-red-500 text-white" : "bg-slate-100")}">${String.fromCharCode(65 + i)}</span>
                     <span class="text-slate-700 font-medium leading-relaxed">${opt}</span>
                 `;
 
@@ -534,6 +828,7 @@
           optionsContainer.appendChild(btn);
         });
 
+        renderExplanationBox(qData, isAnswered);
         updateProgressDots();
         document.addEventListener("keydown", handleQuizNavigation);
       }
@@ -615,7 +910,8 @@
         if (answerHistory[currentIdx] !== null) return;
 
         answerHistory[currentIdx] = i;
-        const correct = currentQuestions[currentIdx].correct;
+        const qData = currentQuestions[currentIdx];
+        const correct = qData.correct;
         const isCorrect = i === correct;
 
         if (isCorrect) {
@@ -625,32 +921,70 @@
           questionStatuses[currentIdx] = "wrong";
           mistakesList.push({
             questionNumber: currentIdx + 1,
-            question: currentQuestions[currentIdx].q.replace(/\[.*?\]/g, ""),
-            userAnswer: currentQuestions[currentIdx].options[i],
-            correctAnswer: currentQuestions[currentIdx].options[correct],
+            question: qData.q.replace(/\[.*?\]/g, ""),
+            userAnswer: qData.options[i],
+            correctAnswer: qData.options[correct],
           });
         }
 
         loadQuestion();
         updateProgressDots();
 
-        const delayTime = isCorrect ? 1500 : 3000;
+        const delayTime = isCorrect ? 2200 : 3800;
         setTimeout(() => {
-          let nextIdx = currentIdx + 1;
-          while (nextIdx < questionStatuses.length && questionStatuses[nextIdx] !== "pending") nextIdx++;
-
-          if (nextIdx < questionStatuses.length) {
-            goToQuestion(nextIdx);
+          if (isAdaptiveTest) {
+            advanceAdaptiveTest(isCorrect);
           } else {
-            const unansweredCount = questionStatuses.filter((s) => s === "pending").length;
-            if (unansweredCount === 0) {
-              finishQuiz();
-            } else {
-              const firstUnanswered = questionStatuses.findIndex((s) => s === "pending");
-              if (firstUnanswered !== -1) goToQuestion(firstUnanswered);
-            }
+            advanceStandardTest();
           }
         }, delayTime);
+      }
+
+      function advanceAdaptiveTest(wasCorrect) {
+        adaptiveStreak = wasCorrect ? adaptiveStreak + 1 : 0;
+        if (currentQuestions.length < ADAPTIVE_LENGTH) {
+          const difficulty = nextAdaptiveDifficulty(wasCorrect);
+          currentQuestions.push(pickAdaptiveQuestion(difficulty));
+          goToQuestion(currentQuestions.length - 1);
+        } else {
+          finishQuiz();
+        }
+      }
+
+      function advanceStandardTest() {
+        let nextIdx = currentIdx + 1;
+        while (nextIdx < questionStatuses.length && questionStatuses[nextIdx] !== "pending") nextIdx++;
+
+        if (nextIdx < questionStatuses.length) {
+          goToQuestion(nextIdx);
+        } else {
+          const unansweredCount = questionStatuses.filter((s) => s === "pending").length;
+          if (unansweredCount === 0) {
+            finishQuiz();
+          } else {
+            const firstUnanswered = questionStatuses.findIndex((s) => s === "pending");
+            if (firstUnanswered !== -1) goToQuestion(firstUnanswered);
+          }
+        }
+      }
+
+      function getTestTypeLabel() {
+        if (isAdaptiveTest) return "🔥 Moslashuvchan test";
+        if (isMixedTest) return "🎯 Imtihon rejimi";
+        return currentLevelData.quizDatabase[currentTopicKey].title;
+      }
+
+      function saveQuizResult(total, percent) {
+        saveResult({
+          level: currentLevelKey,
+          topicKey: isMixedTest ? "mixedTest" : isAdaptiveTest ? "adaptiveTest" : currentTopicKey,
+          topicTitle: getTestTypeLabel(),
+          type: "quiz",
+          score,
+          total,
+          percent,
+          date: new Date().toISOString(),
+        });
       }
 
       function finishQuiz() {
@@ -661,6 +995,7 @@
 
         const total = currentQuestions.length;
         const percent = Math.round((score / total) * 100);
+        saveQuizResult(total, percent);
 
         if (percent >= 80) {
           statusIcon.className = "mb-6 p-4 rounded-full bg-green-100 text-green-600";
@@ -673,7 +1008,7 @@
           statusIcon.innerHTML = `<svg class="w-16 h-16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>`;
         }
 
-        finalScoreText.innerHTML = `Siz jami <b>${total}</b> ta savoldan <b>${score}</b> tasini to'g'ri topdingiz.<br><span class="text-2xl font-extrabold mt-2 block ${percent >= 60 ? "text-green-600" : "text-red-600"}">Natija: ${percent}%</span>`;
+        finalScoreText.innerHTML = `<b>${getTestTypeLabel()}</b><br>Siz jami <b>${total}</b> ta savoldan <b>${score}</b> tasini to'g'ri topdingiz.<br><span class="text-2xl font-extrabold mt-2 block ${percent >= 60 ? "text-green-600" : "text-red-600"}">Natija: ${percent}%</span>`;
 
         displayMistakes();
       }
@@ -720,7 +1055,9 @@
       }
 
       function restartTopic() {
-        if (isMixedTest) {
+        if (isAdaptiveTest) {
+          startAdaptiveTest();
+        } else if (isMixedTest) {
           startMixedTest();
         } else {
           startQuiz(currentTopicKey);
@@ -769,7 +1106,10 @@
         document.getElementById("grammar-list-view").classList.add("hidden");
         document.getElementById("grammar-detail-view").classList.remove("hidden");
         document.getElementById("grammar-detail-title").innerText = `${topic.icon} ${topic.title}`;
-        document.getElementById("grammar-detail-content").innerHTML = topic.content;
+        const tipHtml = topic.tip
+          ? `<div class="mt-6 p-4 rounded-xl bg-amber-50 border border-amber-200 text-amber-800 text-sm">💡 ${topic.tip}</div>`
+          : "";
+        document.getElementById("grammar-detail-content").innerHTML = topic.content + tipHtml;
         document.getElementById("grammar-back-label").innerText = "Mavzular ro'yxati";
         grammarScreen.scrollTop = 0;
       }
@@ -798,6 +1138,7 @@
         const container = document.getElementById("vocab-categories-list");
         container.innerHTML = "";
         currentLevelData.vocabDatabase.forEach((cat) => {
+          const learned = getCategoryLearnedCount(currentLevelKey, cat.key);
           const btn = document.createElement("button");
           btn.className =
             "p-4 bg-white border-2 border-slate-200 rounded-2xl text-center hover:border-blue-400 hover:bg-blue-50 transition-all flex flex-col items-center gap-2";
@@ -805,6 +1146,7 @@
             <span class="text-2xl">${cat.icon}</span>
             <span class="font-bold text-slate-800 text-sm">${cat.title}</span>
             <span class="text-xs text-slate-400">${cat.words.length} ta so'z</span>
+            ${learned > 0 ? `<span class="text-xs font-bold text-green-600">⭐ ${learned}/${cat.words.length} yodlandi</span>` : ""}
           `;
           btn.onclick = () => showVocabDetail(cat.key);
           container.appendChild(btn);
@@ -816,6 +1158,48 @@
         document.getElementById("vocab-list-view").classList.remove("hidden");
         document.getElementById("vocab-detail-view").classList.add("hidden");
         document.getElementById("vocab-back-label").innerText = "Bo'limlar";
+        renderVocabCategories();
+      }
+
+      function updateVocabProgressUI(cat) {
+        const learned = getCategoryLearnedCount(currentLevelKey, cat.key);
+        const percent = Math.round((learned / cat.words.length) * 100);
+        document.getElementById("vocab-progress-bar").style.width = `${percent}%`;
+        document.getElementById("vocab-progress-text").textContent = `⭐ ${learned} / ${cat.words.length} so'z yodlandi (${percent}%)`;
+      }
+
+      function buildVocabCard(cat, word) {
+        const learned = isWordLearned(currentLevelKey, cat.key, word.en);
+        const card = document.createElement("div");
+        card.className = "flip-card relative h-28 rounded-xl border-2 border-slate-200 bg-white shadow-sm";
+        card.innerHTML = `
+          <div class="flip-inner relative w-full h-full">
+            <div class="flip-front flex-col gap-1">
+              <span class="text-2xl">${word.icon || "📘"}</span>
+              <span class="font-bold text-slate-800 text-sm text-center px-4">${word.en}</span>
+              <button class="speak-btn absolute top-1.5 right-1.5 p-1.5 rounded-full bg-blue-50 hover:bg-blue-100 text-blue-600" aria-label="Talaffuzni eshitish">
+                <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.383 3.076A1 1 0 0110 4v12a1 1 0 01-1.707.707L4.586 13H2a1 1 0 01-1-1V8a1 1 0 011-1h2.586l3.707-3.707a1 1 0 011.09-.217zM14.657 5.343a1 1 0 011.414 0A7.975 7.975 0 0118 10a7.975 7.975 0 01-1.929 5.657 1 1 0 11-1.414-1.414A5.975 5.975 0 0016 10a5.975 5.975 0 00-1.343-3.243 1 1 0 010-1.414z"></path></svg>
+              </button>
+              <button class="learn-btn absolute top-1.5 left-1.5 text-lg" aria-label="Yodladim">${learned ? "⭐" : "☆"}</button>
+            </div>
+            <div class="flip-back bg-blue-600 rounded-xl">
+              <span class="font-bold text-white text-sm text-center px-4">${word.uz}</span>
+            </div>
+          </div>
+        `;
+        card.querySelector(".speak-btn").onclick = (e) => {
+          e.stopPropagation();
+          speakWord(word.en, e.currentTarget);
+        };
+        const learnBtn = card.querySelector(".learn-btn");
+        learnBtn.onclick = (e) => {
+          e.stopPropagation();
+          const nowLearned = toggleWordLearned(currentLevelKey, cat.key, word.en);
+          learnBtn.textContent = nowLearned ? "⭐" : "☆";
+          updateVocabProgressUI(cat);
+        };
+        card.onclick = () => card.classList.toggle("flipped");
+        return card;
       }
 
       function showVocabDetail(key) {
@@ -824,35 +1208,13 @@
         vocabInDetail = true;
         document.getElementById("vocab-list-view").classList.add("hidden");
         document.getElementById("vocab-detail-view").classList.remove("hidden");
-        document.getElementById("vocab-detail-title").innerText = `${cat.icon} ${cat.title}`;
-        document.getElementById("vocab-back-label").innerText = "Kategoriyalar";
+        document.getElementById("vocab-detail-title").textContent = `${cat.icon} ${cat.title}`;
+        document.getElementById("vocab-back-label").textContent = "Kategoriyalar";
+        updateVocabProgressUI(cat);
 
         const grid = document.getElementById("vocab-cards-grid");
         grid.innerHTML = "";
-        cat.words.forEach((word) => {
-          const card = document.createElement("div");
-          card.className = "flip-card relative h-24 rounded-xl border-2 border-slate-200 bg-white shadow-sm";
-          card.innerHTML = `
-            <div class="flip-inner relative w-full h-full">
-              <div class="flip-front">
-                <span class="font-bold text-slate-800 pr-6">${word.en}</span>
-                <button class="speak-btn absolute top-1.5 right-1.5 p-1.5 rounded-full bg-blue-50 hover:bg-blue-100 text-blue-600" aria-label="Talaffuzni eshitish">
-                  <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.383 3.076A1 1 0 0110 4v12a1 1 0 01-1.707.707L4.586 13H2a1 1 0 01-1-1V8a1 1 0 011-1h2.586l3.707-3.707a1 1 0 011.09-.217zM14.657 5.343a1 1 0 011.414 0A7.975 7.975 0 0118 10a7.975 7.975 0 01-1.929 5.657 1 1 0 11-1.414-1.414A5.975 5.975 0 0016 10a5.975 5.975 0 00-1.343-3.243 1 1 0 010-1.414z"></path></svg>
-                </button>
-              </div>
-              <div class="flip-back bg-blue-600 rounded-xl">
-                <span class="font-bold text-white">${word.uz}</span>
-              </div>
-            </div>
-          `;
-          const speakBtn = card.querySelector(".speak-btn");
-          speakBtn.onclick = (e) => {
-            e.stopPropagation();
-            speakWord(word.en, speakBtn);
-          };
-          card.onclick = () => card.classList.toggle("flipped");
-          grid.appendChild(card);
-        });
+        cat.words.forEach((word) => grid.appendChild(buildVocabCard(cat, word)));
         vocabScreen.scrollTop = 0;
       }
 
@@ -898,6 +1260,466 @@
         }
 
         window.speechSynthesis.speak(utterance);
+      }
+
+      // ===================== MASHQLAR (EXERCISES) =====================
+      let currentExerciseType = null;
+      let currentExerciseIdx = 0;
+      let currentExerciseItems = [];
+      let exerciseScore = 0;
+      let exerciseAnswered = false;
+      let orderSelection = [];
+      let matchSelectedA = null;
+      let matchSolvedPairs = new Set();
+
+      const EXERCISE_TYPE_META = {
+        fill: { title: "✏️ Bo'sh joyni to'ldirish", desc: "Gapdagi bo'sh joyga to'g'ri so'zni yozing" },
+        order: { title: "🔤 Gap tuzish", desc: "So'zlarni to'g'ri tartibda joylashtiring" },
+        match: { title: "🔗 Moslashtirish", desc: "Sinonim/antonim juftliklarini toping" },
+        error: { title: "🔍 Xatoni topish", desc: "Gapdagi xato so'zni bosing" },
+        listen: { title: "🎧 Tinglab tushunish", desc: "Ovozni eshiting va savolga javob bering" },
+      };
+
+      function showExercisesScreen() {
+        hideAllScreens();
+        exercisesScreen.classList.remove("hidden");
+        exercisesScreen.classList.add("flex");
+        renderExerciseTypesList();
+      }
+
+      function renderExerciseTypesList() {
+        const container = document.getElementById("exercise-types-list");
+        container.innerHTML = "";
+        const ex = currentLevelData.exercisesDatabase;
+        Object.keys(EXERCISE_TYPE_META).forEach((type) => {
+          const meta = EXERCISE_TYPE_META[type];
+          const count = type === "match" ? ex.matchSets.length : ex[type].length;
+          const unit = type === "match" ? "to'plam" : "ta mashq";
+          const btn = document.createElement("button");
+          btn.className =
+            "p-5 bg-white border-2 border-slate-200 rounded-2xl text-left hover:border-orange-400 hover:bg-orange-50 transition-all flex justify-between items-center";
+          btn.innerHTML = `
+            <div>
+              <h3 class="font-bold text-slate-800">${meta.title}</h3>
+              <p class="text-sm text-slate-400">${meta.desc} · ${count} ${unit}</p>
+            </div>
+            <svg class="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+          `;
+          btn.onclick = () => startExercise(type);
+          container.appendChild(btn);
+        });
+      }
+
+      function startExercise(type) {
+        currentExerciseType = type;
+        currentExerciseIdx = 0;
+        exerciseScore = 0;
+        const ex = currentLevelData.exercisesDatabase;
+        currentExerciseItems = type === "match" ? shuffleArray(ex.matchSets) : shuffleArray(ex[type]);
+        hideAllScreens();
+        exercisePlayScreen.classList.remove("hidden");
+        exercisePlayScreen.classList.add("flex");
+        loadExerciseItem();
+      }
+
+      function loadExerciseItem() {
+        exerciseAnswered = false;
+        orderSelection = [];
+        matchSelectedA = null;
+        matchSolvedPairs = new Set();
+        const total = currentExerciseItems.length;
+        document.getElementById("exercise-counter").textContent = `${currentExerciseIdx + 1} / ${total}`;
+        document.getElementById("exercise-progress-bar").style.width = `${(currentExerciseIdx / total) * 100}%`;
+        const item = currentExerciseItems[currentExerciseIdx];
+        const renderers = {
+          fill: renderFillExercise,
+          order: renderOrderExercise,
+          match: renderMatchExercise,
+          error: renderErrorExercise,
+          listen: renderListenExercise,
+        };
+        renderers[currentExerciseType](item);
+      }
+
+      function exerciseFeedback(isCorrect, message) {
+        const box = document.createElement("div");
+        box.className = `mt-4 p-4 rounded-xl text-sm font-semibold ${isCorrect ? "bg-green-50 text-green-700 border border-green-200" : "bg-red-50 text-red-700 border border-red-200"}`;
+        box.textContent = message;
+        return box;
+      }
+
+      function goToNextExerciseItem() {
+        if (currentExerciseIdx < currentExerciseItems.length - 1) {
+          currentExerciseIdx++;
+          loadExerciseItem();
+        } else {
+          finishExercise();
+        }
+      }
+
+      function finishExercise() {
+        const total = currentExerciseItems.length;
+        const percent = Math.round((exerciseScore / total) * 100);
+        saveResult({
+          level: currentLevelKey,
+          topicKey: `exercise_${currentExerciseType}`,
+          topicTitle: EXERCISE_TYPE_META[currentExerciseType].title,
+          type: "exercise",
+          score: exerciseScore,
+          total,
+          percent,
+          date: new Date().toISOString(),
+        });
+
+        const content = document.getElementById("exercise-content");
+        content.innerHTML = `
+          <div class="text-center py-10">
+            <div class="text-5xl mb-4">${percent >= 70 ? "🎉" : "💪"}</div>
+            <h2 class="text-2xl font-bold text-slate-800 mb-2">Mashq yakunlandi!</h2>
+            <p class="text-slate-600 mb-6">Natija: <b>${exerciseScore} / ${total}</b> (${percent}%)</p>
+            <div class="flex gap-3 justify-center">
+              <button onclick="startExercise('${currentExerciseType}')" class="bg-blue-600 text-white px-6 py-3 rounded-xl font-bold hover:bg-blue-700">Qayta urinish</button>
+              <button onclick="showExercisesScreen()" class="bg-slate-200 text-slate-700 px-6 py-3 rounded-xl font-bold hover:bg-slate-300">Boshqa mashq</button>
+            </div>
+          </div>
+        `;
+        document.getElementById("exercise-progress-bar").style.width = "100%";
+      }
+
+      // ---- 1) Bo'sh joyni to'ldirish ----
+      function renderFillExercise(item) {
+        const content = document.getElementById("exercise-content");
+        content.innerHTML = `
+          <p class="text-xs text-slate-400 font-bold uppercase mb-2">Bo'sh joyni to'ldiring</p>
+          <h2 class="text-xl text-slate-800 font-bold mb-6 leading-relaxed">${item.q}</h2>
+          <input id="fill-input" type="text" placeholder="Javobingizni yozing..." class="w-full p-4 rounded-xl border-2 border-slate-200 focus:border-blue-400 focus:outline-none text-lg" autocomplete="off" />
+          <button id="fill-submit" class="mt-4 w-full bg-blue-600 text-white px-6 py-3 rounded-xl font-bold hover:bg-blue-700">Tekshirish</button>
+        `;
+        const input = document.getElementById("fill-input");
+        input.focus();
+        const submit = () => {
+          if (exerciseAnswered) return;
+          exerciseAnswered = true;
+          const userVal = input.value.trim().toLowerCase();
+          const isCorrect = item.answers.some((a) => a.toLowerCase() === userVal);
+          if (isCorrect) exerciseScore++;
+          input.disabled = true;
+          input.className += isCorrect ? " border-green-500 bg-green-50" : " border-red-400 bg-red-50";
+          content.appendChild(exerciseFeedback(isCorrect, isCorrect ? "✅ To'g'ri!" : `❌ To'g'ri javob: "${item.answers[0]}"`));
+          const nextBtn = document.createElement("button");
+          nextBtn.className = "mt-4 w-full bg-slate-800 text-white px-6 py-3 rounded-xl font-bold hover:bg-slate-900";
+          nextBtn.textContent = "Keyingisi →";
+          nextBtn.onclick = goToNextExerciseItem;
+          content.appendChild(nextBtn);
+          document.getElementById("fill-submit").classList.add("hidden");
+        };
+        document.getElementById("fill-submit").onclick = submit;
+        input.addEventListener("keydown", (e) => {
+          if (e.key === "Enter") submit();
+        });
+      }
+
+      // ---- 2) Gap tuzish (Sentence ordering) ----
+      function renderOrderExercise(item) {
+        const content = document.getElementById("exercise-content");
+        const shuffledWords = shuffleArray(item.words.map((w, i) => ({ word: w, id: i })));
+        content.innerHTML = `
+          <p class="text-xs text-slate-400 font-bold uppercase mb-2">So'zlarni to'g'ri tartibda tering</p>
+          <div id="order-sentence" class="min-h-[3.5rem] p-3 rounded-xl bg-slate-50 border-2 border-dashed border-slate-300 mb-4 flex flex-wrap gap-2 items-center"></div>
+          <div id="order-bank" class="flex flex-wrap gap-2 mb-6"></div>
+          <div class="flex gap-2">
+            <button id="order-reset" class="flex-1 bg-slate-200 text-slate-700 px-6 py-3 rounded-xl font-bold hover:bg-slate-300">Tozalash</button>
+            <button id="order-submit" class="flex-1 bg-blue-600 text-white px-6 py-3 rounded-xl font-bold hover:bg-blue-700">Tekshirish</button>
+          </div>
+        `;
+        const sentenceEl = document.getElementById("order-sentence");
+        const bankEl = document.getElementById("order-bank");
+
+        function renderWordChip(w, fromBank) {
+          const chip = document.createElement("button");
+          chip.className = "px-3 py-2 bg-white border-2 border-blue-200 rounded-lg font-semibold text-slate-700 hover:bg-blue-50";
+          chip.textContent = w.word;
+          chip.onclick = () => {
+            if (exerciseAnswered) return;
+            if (fromBank) {
+              orderSelection.push(w);
+            } else {
+              orderSelection = orderSelection.filter((x) => x.id !== w.id);
+            }
+            renderOrderUI();
+          };
+          return chip;
+        }
+
+        function renderOrderUI() {
+          sentenceEl.innerHTML = "";
+          orderSelection.forEach((w) => sentenceEl.appendChild(renderWordChip(w, false)));
+          bankEl.innerHTML = "";
+          shuffledWords
+            .filter((w) => !orderSelection.some((s) => s.id === w.id))
+            .forEach((w) => bankEl.appendChild(renderWordChip(w, true)));
+        }
+        renderOrderUI();
+
+        document.getElementById("order-reset").onclick = () => {
+          if (exerciseAnswered) return;
+          orderSelection = [];
+          renderOrderUI();
+        };
+
+        document.getElementById("order-submit").onclick = () => {
+          if (exerciseAnswered) return;
+          exerciseAnswered = true;
+          const userSentence = orderSelection.map((w) => w.word).join(" ");
+          const isCorrect = userSentence === item.answer;
+          if (isCorrect) exerciseScore++;
+          content.appendChild(exerciseFeedback(isCorrect, isCorrect ? "✅ To'g'ri!" : `❌ To'g'ri javob: "${item.answer}"`));
+          const nextBtn = document.createElement("button");
+          nextBtn.className = "mt-4 w-full bg-slate-800 text-white px-6 py-3 rounded-xl font-bold hover:bg-slate-900";
+          nextBtn.textContent = "Keyingisi →";
+          nextBtn.onclick = goToNextExerciseItem;
+          content.appendChild(nextBtn);
+        };
+      }
+
+      // ---- 3) Moslashtirish (Matching) ----
+      function renderMatchExercise(set) {
+        const content = document.getElementById("exercise-content");
+        const colA = shuffleArray(set.pairs.map((p, i) => ({ text: p.a, id: i })));
+        const colB = shuffleArray(set.pairs.map((p, i) => ({ text: p.b, id: i })));
+        content.innerHTML = `
+          <p class="text-xs text-slate-400 font-bold uppercase mb-2">${set.title}</p>
+          <p class="text-sm text-slate-500 mb-4">Chap ustundan so'zni, keyin o'ng ustundan mos juftini bosing.</p>
+          <div class="grid grid-cols-2 gap-3">
+            <div id="match-col-a" class="space-y-2"></div>
+            <div id="match-col-b" class="space-y-2"></div>
+          </div>
+          <p id="match-status" class="text-sm text-slate-400 mt-4 text-center"></p>
+        `;
+        const colAEl = document.getElementById("match-col-a");
+        const colBEl = document.getElementById("match-col-b");
+
+        function makeBtn(item, isColB) {
+          const btn = document.createElement("button");
+          btn.className = "w-full p-3 rounded-lg border-2 border-slate-200 bg-white font-semibold text-slate-700 hover:border-blue-300 transition-all";
+          btn.textContent = item.text;
+          btn.setAttribute("data-id", item.id);
+          if (matchSolvedPairs.has(item.id)) {
+            btn.className = "w-full p-3 rounded-lg border-2 border-green-400 bg-green-50 font-semibold text-green-700 cursor-default";
+            btn.disabled = true;
+          } else {
+            btn.onclick = () => handleMatchClick(item.id, isColB, btn);
+          }
+          return btn;
+        }
+
+        function renderCols() {
+          colAEl.innerHTML = "";
+          colBEl.innerHTML = "";
+          colA.forEach((item) => colAEl.appendChild(makeBtn(item, false)));
+          colB.forEach((item) => colBEl.appendChild(makeBtn(item, true)));
+        }
+
+        function handleMatchClick(id, isColB, btnEl) {
+          if (!isColB) {
+            matchSelectedA = id;
+            [...colAEl.children].forEach((b) => b.classList.remove("border-blue-500", "bg-blue-50"));
+            btnEl.classList.add("border-blue-500", "bg-blue-50");
+            return;
+          }
+          if (matchSelectedA === null) return;
+          const isCorrect = matchSelectedA === id;
+          if (isCorrect) {
+            matchSolvedPairs.add(id);
+            exerciseScore++;
+            matchSelectedA = null;
+            renderCols();
+            document.getElementById("match-status").textContent = `✅ To'g'ri! (${matchSolvedPairs.size}/${set.pairs.length})`;
+            if (matchSolvedPairs.size === set.pairs.length) {
+              exerciseAnswered = true;
+              const nextBtn = document.createElement("button");
+              nextBtn.className = "mt-4 w-full bg-slate-800 text-white px-6 py-3 rounded-xl font-bold hover:bg-slate-900";
+              nextBtn.textContent = "Keyingisi →";
+              nextBtn.onclick = goToNextExerciseItem;
+              content.appendChild(nextBtn);
+            }
+          } else {
+            document.getElementById("match-status").textContent = "❌ Mos kelmadi, qayta urinib ko'ring.";
+            btnEl.classList.add("border-red-400", "bg-red-50");
+            setTimeout(() => btnEl.classList.remove("border-red-400", "bg-red-50"), 600);
+            matchSelectedA = null;
+          }
+        }
+        renderCols();
+      }
+
+      // ---- 4) Xatoni topish (Error identification) ----
+      function renderErrorExercise(item) {
+        const content = document.getElementById("exercise-content");
+        content.innerHTML = `
+          <p class="text-xs text-slate-400 font-bold uppercase mb-2">Xato so'zni bosing</p>
+          <div id="error-tokens" class="flex flex-wrap gap-2 mb-6 text-lg"></div>
+        `;
+        const tokensEl = document.getElementById("error-tokens");
+        item.tokens.forEach((tok, idx) => {
+          const btn = document.createElement("button");
+          btn.className = "px-2 py-1 rounded-lg border-2 border-transparent hover:border-blue-300 hover:bg-blue-50 font-medium text-slate-800";
+          btn.textContent = tok;
+          btn.onclick = () => {
+            if (exerciseAnswered) return;
+            exerciseAnswered = true;
+            const isCorrect = idx === item.errorIndex;
+            if (isCorrect) exerciseScore++;
+            [...tokensEl.children].forEach((c, i) => {
+              if (i === item.errorIndex) c.className = "px-2 py-1 rounded-lg border-2 border-green-500 bg-green-50 font-medium text-green-700";
+            });
+            if (!isCorrect) btn.className = "px-2 py-1 rounded-lg border-2 border-red-400 bg-red-50 font-medium text-red-700";
+            content.appendChild(exerciseFeedback(isCorrect, isCorrect ? `✅ To'g'ri! To'g'ri shakli: "${item.correction}"` : `❌ To'g'ri so'z: "${item.tokens[item.errorIndex]}" → "${item.correction}"`));
+            const nextBtn = document.createElement("button");
+            nextBtn.className = "mt-4 w-full bg-slate-800 text-white px-6 py-3 rounded-xl font-bold hover:bg-slate-900";
+            nextBtn.textContent = "Keyingisi →";
+            nextBtn.onclick = goToNextExerciseItem;
+            content.appendChild(nextBtn);
+          };
+          tokensEl.appendChild(btn);
+        });
+      }
+
+      // ---- 5) Tinglab tushunish (Listening) ----
+      function renderListenExercise(item) {
+        const content = document.getElementById("exercise-content");
+        content.innerHTML = `
+          <p class="text-xs text-slate-400 font-bold uppercase mb-2">Tinglang va savolga javob bering</p>
+          <button id="listen-play" class="mb-6 flex items-center gap-3 bg-blue-50 hover:bg-blue-100 text-blue-700 px-6 py-4 rounded-xl font-bold w-full justify-center">
+            🔊 Ovozni eshitish
+          </button>
+          <h2 class="text-lg text-slate-800 font-bold mb-4">${item.question}</h2>
+          <div id="listen-options" class="grid grid-cols-1 gap-3"></div>
+        `;
+        document.getElementById("listen-play").onclick = (e) => speakWord(item.text, e.currentTarget);
+        speakWord(item.text, document.getElementById("listen-play"));
+
+        const optionsEl = document.getElementById("listen-options");
+        item.options.forEach((opt, idx) => {
+          const btn = document.createElement("button");
+          btn.className = "p-4 rounded-xl border-2 border-slate-200 bg-white text-left font-medium text-slate-700 hover:border-blue-300";
+          btn.textContent = opt;
+          btn.onclick = () => {
+            if (exerciseAnswered) return;
+            exerciseAnswered = true;
+            const isCorrect = idx === item.correct;
+            if (isCorrect) exerciseScore++;
+            [...optionsEl.children].forEach((c, i) => {
+              if (i === item.correct) c.className = "p-4 rounded-xl border-2 border-green-500 bg-green-50 text-left font-medium text-green-700";
+              else if (i === idx) c.className = "p-4 rounded-xl border-2 border-red-400 bg-red-50 text-left font-medium text-red-700";
+              else c.className += " opacity-50";
+            });
+            content.appendChild(exerciseFeedback(isCorrect, isCorrect ? "✅ To'g'ri!" : "❌ Noto'g'ri, to'g'ri javob yashil rangda ko'rsatildi."));
+            const nextBtn = document.createElement("button");
+            nextBtn.className = "mt-4 w-full bg-slate-800 text-white px-6 py-3 rounded-xl font-bold hover:bg-slate-900";
+            nextBtn.textContent = "Keyingisi →";
+            nextBtn.onclick = goToNextExerciseItem;
+            content.appendChild(nextBtn);
+          };
+          optionsEl.appendChild(btn);
+        });
+      }
+
+      // ===================== NATIJALARIM (HISTORY) =====================
+      function showHistoryScreen() {
+        hideAllScreens();
+        historyScreen.classList.remove("hidden");
+        historyScreen.classList.add("flex");
+        renderHistory();
+      }
+
+      function renderHistory() {
+        const results = loadResults().filter((r) => r.level === currentLevelKey);
+        const summaryEl = document.getElementById("history-summary");
+        const listEl = document.getElementById("history-list");
+
+        const attempts = results.length;
+        const avgPercent = attempts > 0 ? Math.round(results.reduce((a, r) => a + r.percent, 0) / attempts) : 0;
+        const bestPercent = attempts > 0 ? Math.max(...results.map((r) => r.percent)) : 0;
+
+        summaryEl.innerHTML = `
+          <div class="p-4 bg-blue-50 rounded-xl text-center">
+            <p class="text-2xl font-extrabold text-blue-700">${attempts}</p>
+            <p class="text-xs text-blue-500 font-semibold">Urinishlar</p>
+          </div>
+          <div class="p-4 bg-green-50 rounded-xl text-center">
+            <p class="text-2xl font-extrabold text-green-700">${avgPercent}%</p>
+            <p class="text-xs text-green-500 font-semibold">O'rtacha</p>
+          </div>
+          <div class="p-4 bg-purple-50 rounded-xl text-center">
+            <p class="text-2xl font-extrabold text-purple-700">${bestPercent}%</p>
+            <p class="text-xs text-purple-500 font-semibold">Eng yaxshi</p>
+          </div>
+        `;
+
+        listEl.innerHTML = "";
+        if (attempts === 0) {
+          listEl.innerHTML = '<p class="text-center text-slate-400 py-10">Hali test topshirilmagan. Test yoki mashq boshlang!</p>';
+          return;
+        }
+
+        results
+          .slice()
+          .reverse()
+          .forEach((r) => {
+            const date = new Date(r.date);
+            const dateStr = date.toLocaleDateString("uz-UZ", { day: "2-digit", month: "2-digit", year: "numeric" });
+            const timeStr = date.toLocaleTimeString("uz-UZ", { hour: "2-digit", minute: "2-digit" });
+            const color = r.percent >= 80 ? "green" : r.percent >= 50 ? "yellow" : "red";
+            const row = document.createElement("div");
+            row.className = "p-4 bg-white border border-slate-200 rounded-xl flex justify-between items-center";
+            row.innerHTML = `
+              <div>
+                <p class="font-bold text-slate-800 text-sm">${r.topicTitle}</p>
+                <p class="text-xs text-slate-400">${dateStr}, ${timeStr} · ${r.type === "exercise" ? "Mashq" : "Test"}</p>
+              </div>
+              <span class="text-sm font-extrabold px-3 py-1 rounded-full bg-${color}-100 text-${color}-700">${r.score}/${r.total} (${r.percent}%)</span>
+            `;
+            listEl.appendChild(row);
+          });
+      }
+
+      // ===================== TAVSIYALAR (STUDY TIPS) =====================
+      const STUDY_TIPS = [
+        { icon: "📅", title: "Har kuni ozgina, lekin muntazam", text: "Haftada bir marta 3 soat o'qishdan ko'ra, har kuni 20-30 daqiqa mashq qilish miyaga yangi so'zlarni uzoq muddatli xotiraga o'tkazishda ancha samaraliroq." },
+        { icon: "🔁", title: "Takrorlash oralig'ini oshirib boring (Spaced Repetition)", text: "Yangi so'zni birinchi kuni, keyin 2-kuni, keyin haftada, keyin oyda takrorlang — bu usul lug'atni uzoq muddat esda saqlashning eng samarali yo'li hisoblanadi." },
+        { icon: "🗣️", title: "Faol eslash (Active Recall)", text: "So'z yoki qoidani shunchaki qayta o'qish emas, balki uni ko'rmasdan turib eslashga harakat qiling — bu ilovadagi testlar va kartochkalar aynan shu maqsadda tuzilgan." },
+        { icon: "✍️", title: "Xato qilishdan qo'rqmang", text: "Har bir xato — miya uchun kuchli o'rganish signali. Xato javoblarni ko'rib chiqing, izohni o'qing va xuddi shu turdagi savolni yana bir necha kundan keyin qayta yeching." },
+        { icon: "🎧", title: "Tinglab tushunishni unutmang", text: "So'zni faqat yozma ko'rinishda emas, balki eshitib ham tanish muhim — shuning uchun kartochkalardagi talaffuz tugmasi va tinglab tushunish mashqlaridan muntazam foydalaning." },
+        { icon: "🧩", title: "Bir mavzuni turli shaklda mashq qiling", text: "Bitta grammatik qoidani test, bo'sh joy to'ldirish va gap tuzish mashqlarida sinab ko'rish uni haqiqiy nutqda qo'llash ko'nikmasini mustahkamlaydi." },
+        { icon: "📈", title: "Progress'ingizni kuzatib boring", text: "\"Natijalarim\" bo'limida o'z rivojlanishingizni kuzating — pastroq foizli mavzularni ustuvor ravishda qayta mashq qiling." },
+        { icon: "🎯", title: "O'zingizga real maqsad qo'ying", text: "\"Bir oyda barcha darajani tugataman\" emas, \"bugun 10 ta so'z yodlayman\" kabi kichik, aniq va bajarilishi mumkin bo'lgan maqsadlar qo'ying." },
+        { icon: "💬", title: "O'rganganingizni ishlatishga harakat qiling", text: "Yangi grammatik qoida yoki so'zni kamida bitta o'z gapingizda ishlatib ko'ring — bu passiv bilimni faol ko'nikmaga aylantiradi." },
+        { icon: "🌙", title: "Aralash va qiyinlashtirilgan testlardan foydalaning", text: "Faqat bitta mavzuni emas, balki \"Imtihon rejimi\" va \"Moslashuvchan test\"ni ham muntazam sinab turing — bu bilimingizni turli kontekstda qo'llashga o'rgatadi." },
+      ];
+
+      function showTipsScreen() {
+        hideAllScreens();
+        tipsScreen.classList.remove("hidden");
+        tipsScreen.classList.add("flex");
+        renderTips();
+      }
+
+      function renderTips() {
+        const container = document.getElementById("tips-list");
+        container.innerHTML = "";
+        STUDY_TIPS.forEach((tip) => {
+          const card = document.createElement("div");
+          card.className = "p-5 bg-white border-2 border-slate-200 rounded-2xl flex gap-4";
+          card.innerHTML = `
+            <span class="text-3xl shrink-0">${tip.icon}</span>
+            <div>
+              <h3 class="font-bold text-slate-800 mb-1">${tip.title}</h3>
+              <p class="text-sm text-slate-500 leading-relaxed">${tip.text}</p>
+            </div>
+          `;
+          container.appendChild(card);
+        });
       }
 
       window.onload = showHome;
